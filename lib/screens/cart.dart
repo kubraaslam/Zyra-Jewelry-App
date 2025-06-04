@@ -121,8 +121,9 @@ class _CartState extends State<Cart> {
                   );
                   // Delay and navigate to home after showing the SnackBar
                   Future.delayed(Duration(seconds: 1), () {
-                    if (!mounted)
+                    if (!mounted) {
                       return; // Prevent using context if widget is disposed
+                    }
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => Home()),
