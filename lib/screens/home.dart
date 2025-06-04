@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jewelry_store/models/category.dart';
 import 'package:jewelry_store/models/product_data.dart';
+import 'package:jewelry_store/models/products.dart';
 import 'package:jewelry_store/screens/cart.dart';
 
 class Home extends StatefulWidget {
@@ -11,6 +12,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   final List<Product> cart = [];
 
   final List<Category> categories = [
@@ -90,11 +93,73 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(color: Colors.black),
+              child: Text(
+                'Zyra Jewelry',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontFamily: 'PlayfairDisplay',
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text(
+                'Home',
+                style: TextStyle(fontFamily: 'PlayfairDisplay'),
+              ),
+              onTap: () => Navigator.pop(context),
+            ),
+            ListTile(
+              leading: Icon(Icons.shopping_bag),
+              title: Text(
+                'Cart',
+                style: TextStyle(fontFamily: 'PlayfairDisplay'),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Cart(cartItems: cart),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.collections),
+              title: Text(
+                'Products',
+                style: TextStyle(fontFamily: 'PlayfairDisplay'),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Products()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: Icon(Icons.menu_rounded, color: Colors.black),
+        leading: IconButton(
+          icon: Icon(Icons.menu_rounded, color: Colors.black),
+          onPressed: () {
+            _scaffoldKey.currentState?.openDrawer();
+          },
+        ),
         title: Column(
           children: [Image.asset('assets/images/logo.png', height: 50)],
         ),
