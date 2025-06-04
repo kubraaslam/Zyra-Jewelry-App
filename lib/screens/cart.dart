@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jewelry_store/models/product_data.dart';
+import 'package:jewelry_store/models/products.dart';
 import 'package:jewelry_store/screens/home.dart';
 
 class Cart extends StatefulWidget {
@@ -12,6 +13,8 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   void increaseQuantity(int index) {
     setState(() {
       widget.cartItems[index].quantity++;
@@ -118,12 +121,11 @@ class _CartState extends State<Cart> {
                   );
                   // Delay and navigate to home after showing the SnackBar
                   Future.delayed(Duration(seconds: 1), () {
-                    if (!mounted) return; // Prevent using context if widget is disposed
+                    if (!mounted)
+                      return; // Prevent using context if widget is disposed
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => Home(),
-                      ),
+                      MaterialPageRoute(builder: (context) => Home()),
                     ); // Go to home
                   });
                 },
@@ -158,11 +160,71 @@ class _CartState extends State<Cart> {
     final isEmpty = widget.cartItems.isEmpty;
 
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(color: Colors.black),
+              child: Text(
+                'Zyra Jewelry',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontFamily: 'PlayfairDisplay',
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text(
+                'Home',
+                style: TextStyle(fontFamily: 'PlayfairDisplay'),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Home()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.shopping_bag),
+              title: Text(
+                'Cart',
+                style: TextStyle(fontFamily: 'PlayfairDisplay'),
+              ),
+              onTap: () => Navigator.pop(context),
+            ),
+            ListTile(
+              leading: Icon(Icons.collections),
+              title: Text(
+                'Products',
+                style: TextStyle(fontFamily: 'PlayfairDisplay'),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Products()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: Icon(Icons.menu_rounded, color: Colors.black),
+        leading: IconButton(
+          icon: Icon(Icons.menu_rounded, color: Colors.black),
+          onPressed: () {
+            _scaffoldKey.currentState?.openDrawer();
+          },
+        ),
         title: Image.asset('assets/images/logo.png', height: 50),
         centerTitle: true,
         actions: [
@@ -285,7 +347,7 @@ class _CartState extends State<Cart> {
                                     ),
                                   ),
                                   IconButton(
-                                    icon: Icon(Icons.close_rounded),
+                                    icon: Icon(Icons.cancel),
                                     color: Colors.red,
                                     onPressed:
                                         () => setState(() {
