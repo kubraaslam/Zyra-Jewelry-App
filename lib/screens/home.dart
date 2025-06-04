@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:jewelry_store/models/category.dart';
-import 'package:jewelry_store/models/product.dart';
+import 'package:jewelry_store/models/product_data.dart';
+import 'package:jewelry_store/screens/cart.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  final List<Product> cart = [];
+
   final List<Category> categories = [
     Category(title: 'RINGS', image: 'assets/images/rings.jpg'),
     Category(title: 'EARRINGS', image: 'assets/images/earrings.jpeg'),
@@ -43,7 +53,39 @@ class Home extends StatelessWidget {
     ),
   ];
 
-  Home({super.key});
+  void addToCart(Product product) {
+    setState(() {
+      // Check if the product is already in the cart
+      final index = cart.indexWhere((item) => item.title == product.title);
+
+      if (index != -1) {
+        // Already in cart → increase quantity
+        cart[index].quantity++;
+      } else {
+        // Not in cart → add with quantity 1
+        cart.add(
+          Product(
+            title: product.title,
+            type: product.type,
+            price: product.price,
+            image: product.image,
+            quantity: 1,
+          ),
+        );
+      }
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          '${product.title} added to cart!',
+          style: TextStyle(fontFamily: 'PlayfairDisplay'),
+        ),
+        backgroundColor: const Color.fromARGB(255, 67, 68, 67),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +100,15 @@ class Home extends StatelessWidget {
         ),
         centerTitle: true,
         actions: [
-          Icon(Icons.shopping_bag_outlined, color: Colors.black),
+          IconButton(
+            icon: Icon(Icons.shopping_bag_outlined, color: Colors.black),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Cart(cartItems: cart)),
+              );
+            },
+          ),
           SizedBox(width: 10),
           Icon(Icons.account_circle, color: Colors.black),
           SizedBox(width: 10),
@@ -208,7 +258,7 @@ class Home extends StatelessWidget {
                               width: 100,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  // Add to cart logic here
+                                  addToCart(item);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   padding: EdgeInsets.symmetric(vertical: 6),
