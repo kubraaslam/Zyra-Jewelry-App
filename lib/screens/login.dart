@@ -24,7 +24,7 @@ class Login extends StatelessWidget {
                 Text(
                   'Login',
                   style: TextStyle(
-                    fontFamily: 'PlayfairDisplay',
+                    fontFamily: 'Roboto',
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
                   ),
@@ -33,7 +33,7 @@ class Login extends StatelessWidget {
                 Text(
                   'Welcome back! Please login to your account',
                   style: TextStyle(
-                    fontFamily: 'PlayfairDisplay',
+                    fontFamily: 'Roboto',
                     fontWeight: FontWeight.w500,
                     color: Colors.grey[700],
                   ),
@@ -47,7 +47,7 @@ class Login extends StatelessWidget {
                   child: Text(
                     'Email:',
                     style: TextStyle(
-                      fontFamily: 'PlayfairDisplay',
+                      fontFamily: 'Roboto',
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -71,7 +71,7 @@ class Login extends StatelessWidget {
                   child: Text(
                     'Password:',
                     style: TextStyle(
-                      fontFamily: 'PlayfairDisplay',
+                      fontFamily: 'Roboto',
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -107,7 +107,7 @@ class Login extends StatelessWidget {
                     child: Text(
                       'Login',
                       style: TextStyle(
-                        fontFamily: 'PlayfairDisplay',
+                        fontFamily: 'Roboto',
                         fontSize: 18,
                         color: Colors.white,
                       ),
@@ -123,7 +123,7 @@ class Login extends StatelessWidget {
                     Text(
                       'New User?',
                       style: TextStyle(
-                        fontFamily: 'PlayfairDisplay',
+                        fontFamily: 'Roboto',
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -137,7 +137,7 @@ class Login extends StatelessWidget {
                       child: Text(
                         'Sign up',
                         style: TextStyle(
-                          fontFamily: 'PlayfairDisplay',
+                          fontFamily: 'Roboto',
                           fontWeight: FontWeight.w500,
                           color: Colors.indigo,
                           decoration: TextDecoration.underline,
