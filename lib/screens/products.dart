@@ -50,7 +50,7 @@ class _ProductsState extends State<Products> {
   Widget build(BuildContext context) {
     Map<String, List<Product>> groupedProducts = {};
 
-    for (var product in allItems) {
+    for (var product in allProducts) {
       groupedProducts.putIfAbsent(product.type, () => []).add(product);
     }
 

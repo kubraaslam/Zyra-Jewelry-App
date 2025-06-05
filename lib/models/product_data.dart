@@ -14,7 +14,7 @@ class Product {
   });
 }
 
-final List<Product> allItems = [
+final List<Product> allProducts = [
   Product(
     title: 'Tied Knot Bracelet',
     type: 'Bracelet',
