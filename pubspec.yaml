@@ -70,6 +70,15 @@ flutter:
     - assets/images/products/wide_cuff_chunky_bangles.jpeg
     - assets/images/products/flower_ring.png
     - assets/images/products/flower_necklace.jpeg
+    - assets/images/products/butterfly-pearl-earring.jpeg
+    - assets/images/products/handcrafted-bracelet.jpeg
+    - assets/images/products/sharp-sword-earring.jpeg
+    - assets/images/products/twisted-ring.jpeg
+    - assets/images/products/hollow-heart-hoop-earrings.jpeg
+    - assets/images/products/spiral-swirl-necklace.jpeg
+    - assets/images/products/wave-ring.jpeg
+    - assets/images/products/pearl-flower-bracelet.png
+    - assets/images/products/sun-necklace.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

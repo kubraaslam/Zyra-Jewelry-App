@@ -15,39 +15,6 @@ class _ProductsState extends State<Products> {
 
   final List<Product> cart = [];
 
-  final List<Product> trendyItems = [
-    Product(
-      title: 'Tied Knot Bracelet',
-      type: 'Bracelet',
-      price: 2500,
-      image: 'assets/images/products/tied_knot_bracelet.jpeg',
-    ),
-    Product(
-      title: 'Teardrop Ear Cuff',
-      type: 'Earring',
-      price: 1500,
-      image: 'assets/images/products/c-shaped_teardrop_earcuff.jpeg',
-    ),
-    Product(
-      title: 'Wide Cuff Chunky Bangles',
-      type: 'Bracelet',
-      price: 2750,
-      image: 'assets/images/products/wide_cuff_chunky_bangles.jpeg',
-    ),
-    Product(
-      title: 'Flower Carved Ring',
-      type: 'Ring',
-      price: 1000,
-      image: 'assets/images/products/flower_ring.png',
-    ),
-    Product(
-      title: 'Flower Jeweled Necklace',
-      type: 'Necklace',
-      price: 3850,
-      image: 'assets/images/products/flower_necklace.jpeg',
-    ),
-  ];
-
   void addToCart(Product product) {
     setState(() {
       final index = cart.indexWhere((item) => item.title == product.title);
@@ -55,13 +22,15 @@ class _ProductsState extends State<Products> {
       if (index != -1) {
         cart[index].quantity++;
       } else {
-        cart.add(Product(
-          title: product.title,
-          type: product.type,
-          price: product.price,
-          image: product.image,
-          quantity: 1,
-        ));
+        cart.add(
+          Product(
+            title: product.title,
+            type: product.type,
+            price: product.price,
+            image: product.image,
+            quantity: 1,
+          ),
+        );
       }
     });
 
@@ -81,7 +50,7 @@ class _ProductsState extends State<Products> {
   Widget build(BuildContext context) {
     Map<String, List<Product>> groupedProducts = {};
 
-    for (var product in trendyItems) {
+    for (var product in allItems) {
       groupedProducts.putIfAbsent(product.type, () => []).add(product);
     }
 
@@ -104,23 +73,40 @@ class _ProductsState extends State<Products> {
             ),
             ListTile(
               leading: Icon(Icons.home),
-              title: Text('Home', style: TextStyle(fontFamily: 'PlayfairDisplay')),
+              title: Text(
+                'Home',
+                style: TextStyle(fontFamily: 'PlayfairDisplay'),
+              ),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (_) => Home()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Home()),
+                );
               },
             ),
             ListTile(
               leading: Icon(Icons.shopping_bag),
-              title: Text('Cart', style: TextStyle(fontFamily: 'PlayfairDisplay')),
+              title: Text(
+                'Cart',
+                style: TextStyle(fontFamily: 'PlayfairDisplay'),
+              ),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (_) => Cart(cartItems: cart)));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Cart(cartItems: cart),
+                  ),
+                );
               },
             ),
             ListTile(
               leading: Icon(Icons.collections),
-              title: Text('Products', style: TextStyle(fontFamily: 'PlayfairDisplay')),
+              title: Text(
+                'Products',
+                style: TextStyle(fontFamily: 'PlayfairDisplay'),
+              ),
               onTap: () => Navigator.pop(context),
             ),
           ],
@@ -141,8 +127,11 @@ class _ProductsState extends State<Products> {
         actions: [
           IconButton(
             icon: Icon(Icons.shopping_bag_outlined, color: Colors.black),
-            onPressed: () =>
-                Navigator.push(context, MaterialPageRoute(builder: (_) => Cart(cartItems: cart))),
+            onPressed:
+                () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => Cart(cartItems: cart)),
+                ),
           ),
           SizedBox(width: 10),
           Icon(Icons.account_circle, color: Colors.black),
@@ -177,12 +166,13 @@ class _ProductsState extends State<Products> {
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: products.length,
-                          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 250,
-                            mainAxisSpacing: 10,
-                            crossAxisSpacing: 10,
-                            childAspectRatio: 0.7,
-                          ),
+                          gridDelegate:
+                              SliverGridDelegateWithMaxCrossAxisExtent(
+                                maxCrossAxisExtent: 250,
+                                mainAxisSpacing: 10,
+                                crossAxisSpacing: 10,
+                                childAspectRatio: 0.7,
+                              ),
                           itemBuilder: (context, index) {
                             final item = products[index];
                             return Card(
@@ -223,7 +213,7 @@ class _ProductsState extends State<Products> {
                                         fontSize: 13,
                                       ),
                                     ),
-                                    SizedBox(height: 6),
+                                    SizedBox(height: 8),
                                     SizedBox(
                                       width: 100,
                                       height: 32,
@@ -269,28 +259,6 @@ class _ProductsState extends State<Products> {
                             fontSize: 12,
                             color: Colors.grey,
                           ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            TextButton(
-                              onPressed: () {},
-                              child: Text('About Us', style: TextStyle(fontFamily: 'PlayfairDisplay')),
-                            ),
-                            Text('|', style: TextStyle(color: Colors.grey)),
-                            TextButton(
-                              onPressed: () {},
-                              child: Text('Contact', style: TextStyle(fontFamily: 'PlayfairDisplay')),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.facebook, color: Colors.grey),
-                            SizedBox(width: 10),
-                            Icon(Icons.camera_alt, color: Colors.grey),
-                          ],
                         ),
                         SizedBox(height: 20),
                       ],
