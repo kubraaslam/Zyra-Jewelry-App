@@ -60,7 +60,7 @@ class _CartState extends State<Cart> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                fontFamily: 'PlayfairDisplay',
+                fontFamily: 'Roboto',
               ),
             ),
             SizedBox(height: 10),
@@ -72,11 +72,11 @@ class _CartState extends State<Cart> {
                   children: [
                     Text(
                       '${item.title} × ${item.quantity}',
-                      style: TextStyle(fontFamily: 'PlayfairDisplay'),
+                      style: TextStyle(fontFamily: 'Roboto'),
                     ),
                     Text(
                       'LKR ${(item.price * item.quantity).toStringAsFixed(2)}',
-                      style: TextStyle(fontFamily: 'PlayfairDisplay'),
+                      style: TextStyle(fontFamily: 'Roboto'),
                     ),
                   ],
                 ),
@@ -90,14 +90,14 @@ class _CartState extends State<Cart> {
                   'Subtotal:',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontFamily: 'PlayfairDisplay',
+                    fontFamily: 'Roboto',
                   ),
                 ),
                 Text(
                   'LKR ${subtotal.toStringAsFixed(2)}',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontFamily: 'PlayfairDisplay',
+                    fontFamily: 'Roboto',
                   ),
                 ),
               ],
@@ -113,7 +113,7 @@ class _CartState extends State<Cart> {
                     SnackBar(
                       content: Text(
                         "Thank you for your purchase!",
-                        style: TextStyle(fontFamily: 'PlayfairDisplay'),
+                        style: TextStyle(fontFamily: 'Roboto'),
                       ),
                       duration: Duration(seconds: 3),
                       backgroundColor: Colors.black87,
@@ -145,7 +145,7 @@ class _CartState extends State<Cart> {
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.white,
-                    fontFamily: 'PlayfairDisplay',
+                    fontFamily: 'Roboto',
                   ),
                 ),
               ),
@@ -173,7 +173,7 @@ class _CartState extends State<Cart> {
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24,
-                  fontFamily: 'PlayfairDisplay',
+                  fontFamily: 'Roboto',
                 ),
               ),
             ),
@@ -181,7 +181,7 @@ class _CartState extends State<Cart> {
               leading: Icon(Icons.home),
               title: Text(
                 'Home',
-                style: TextStyle(fontFamily: 'PlayfairDisplay'),
+                style: TextStyle(fontFamily: 'Roboto'),
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -195,7 +195,7 @@ class _CartState extends State<Cart> {
               leading: Icon(Icons.shopping_bag),
               title: Text(
                 'Cart',
-                style: TextStyle(fontFamily: 'PlayfairDisplay'),
+                style: TextStyle(fontFamily: 'Roboto'),
               ),
               onTap: () => Navigator.pop(context),
             ),
@@ -203,7 +203,7 @@ class _CartState extends State<Cart> {
               leading: Icon(Icons.collections),
               title: Text(
                 'Products',
-                style: TextStyle(fontFamily: 'PlayfairDisplay'),
+                style: TextStyle(fontFamily: 'Roboto'),
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -241,7 +241,7 @@ class _CartState extends State<Cart> {
                 child: Text(
                   "No products in the cart",
                   style: TextStyle(
-                    fontFamily: 'PlayfairDisplay',
+                    fontFamily: 'Roboto',
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -256,7 +256,7 @@ class _CartState extends State<Cart> {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        fontFamily: 'PlayfairDisplay',
+                        fontFamily: 'Roboto',
                       ),
                     ),
                     SizedBox(height: 20),
@@ -291,14 +291,14 @@ class _CartState extends State<Cart> {
                                     Text(
                                       item.title,
                                       style: TextStyle(
-                                        fontFamily: 'PlayfairDisplay',
+                                        fontFamily: 'Roboto',
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     Text(
                                       item.type,
                                       style: TextStyle(
-                                        fontFamily: 'PlayfairDisplay',
+                                        fontFamily: 'Roboto',
                                         color: Colors.grey,
                                         fontSize: 12,
                                         fontStyle: FontStyle.italic,
@@ -307,7 +307,7 @@ class _CartState extends State<Cart> {
                                     Text(
                                       "Unit Price: LKR ${item.price}",
                                       style: TextStyle(
-                                        fontFamily: 'PlayfairDisplay',
+                                        fontFamily: 'Roboto',
                                         color: Colors.grey,
                                         fontSize: 12,
                                       ),
@@ -324,7 +324,7 @@ class _CartState extends State<Cart> {
                                         Text(
                                           item.quantity.toString(),
                                           style: TextStyle(
-                                            fontFamily: 'PlayfairDisplay',
+                                            fontFamily: 'Roboto',
                                             fontSize: 20,
                                           ),
                                         ),
@@ -344,7 +344,7 @@ class _CartState extends State<Cart> {
                                     "LKR ${(item.price * item.quantity).toStringAsFixed(2)}",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontFamily: 'PlayfairDisplay',
+                                      fontFamily: 'Roboto',
                                     ),
                                   ),
                                   IconButton(

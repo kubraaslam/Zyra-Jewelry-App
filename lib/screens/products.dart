@@ -29,6 +29,7 @@ class _ProductsState extends State<Products> {
           type: product.type,
           price: product.price,
           image: product.image,
+          description: product.description,
           quantity: 1,
         ));
       }
@@ -38,7 +39,7 @@ class _ProductsState extends State<Products> {
       SnackBar(
         content: Text(
           '${product.title} added to cart!',
-          style: TextStyle(fontFamily: 'PlayfairDisplay'),
+          style: TextStyle(fontFamily: 'Roboto'),
         ),
         backgroundColor: const Color.fromARGB(255, 67, 68, 67),
         duration: Duration(seconds: 2),
@@ -85,13 +86,13 @@ class _ProductsState extends State<Products> {
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24,
-                  fontFamily: 'PlayfairDisplay',
+                  fontFamily: 'Roboto',
                 ),
               ),
             ),
             ListTile(
               leading: Icon(Icons.home),
-              title: Text('Home', style: TextStyle(fontFamily: 'PlayfairDisplay')),
+              title: Text('Home', style: TextStyle(fontFamily: 'Roboto')),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
@@ -99,7 +100,7 @@ class _ProductsState extends State<Products> {
             ),
             ListTile(
               leading: Icon(Icons.shopping_bag),
-              title: Text('Cart', style: TextStyle(fontFamily: 'PlayfairDisplay')),
+              title: Text('Cart', style: TextStyle(fontFamily: 'Roboto')),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -110,7 +111,7 @@ class _ProductsState extends State<Products> {
             ),
             ListTile(
               leading: Icon(Icons.collections),
-              title: Text('Products', style: TextStyle(fontFamily: 'PlayfairDisplay')),
+              title: Text('Products', style: TextStyle(fontFamily: 'Roboto')),
               onTap: () => Navigator.pop(context),
             ),
           ],
@@ -163,7 +164,7 @@ class _ProductsState extends State<Products> {
                         Text(
                           '${type}s',
                           style: TextStyle(
-                            fontFamily: 'PlayfairDisplay',
+                            fontFamily: 'Roboto',
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
@@ -204,7 +205,7 @@ class _ProductsState extends State<Products> {
                                     Text(
                                       item.title,
                                       style: TextStyle(
-                                        fontFamily: 'PlayfairDisplay',
+                                        fontFamily: 'Roboto',
                                         fontWeight: FontWeight.w600,
                                         fontSize: 14,
                                       ),
@@ -214,7 +215,7 @@ class _ProductsState extends State<Products> {
                                     Text(
                                       'LKR ${item.price.toStringAsFixed(2)}',
                                       style: TextStyle(
-                                        fontFamily: 'PlayfairDisplay',
+                                        fontFamily: 'Roboto',
                                         color: Colors.grey[800],
                                         fontSize: 13,
                                       ),
@@ -232,7 +233,7 @@ class _ProductsState extends State<Products> {
                                         child: Text(
                                           'Add to Cart',
                                           style: TextStyle(
-                                            fontFamily: 'PlayfairDisplay',
+                                            fontFamily: 'Roboto',
                                             color: Colors.white,
                                             fontSize: 12,
                                           ),
@@ -261,7 +262,7 @@ class _ProductsState extends State<Products> {
                         Text(
                           '© 2025 All Rights Reserved',
                           style: TextStyle(
-                            fontFamily: 'PlayfairDisplay',
+                            fontFamily: 'Roboto',
                             fontSize: 12,
                             color: Colors.grey,
                           ),
