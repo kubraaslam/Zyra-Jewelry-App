@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jewelry_store/models/category.dart';
 import 'package:jewelry_store/models/product_data.dart';
-import 'package:jewelry_store/models/products.dart';
+import 'package:jewelry_store/screens/products.dart';
 import 'package:jewelry_store/screens/cart.dart';
 
 class Home extends StatefulWidget {

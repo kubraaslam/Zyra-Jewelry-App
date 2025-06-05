@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jewelry_store/models/product_data.dart';
-import 'package:jewelry_store/models/products.dart';
+import 'package:jewelry_store/screens/products.dart';
 import 'package:jewelry_store/screens/home.dart';
 
 class Cart extends StatefulWidget {
