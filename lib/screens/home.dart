@@ -13,7 +13,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   final List<Product> cart = [];
 
   final List<Category> categories = [
@@ -58,23 +57,17 @@ class _HomeState extends State<Home> {
 
   void addToCart(Product product) {
     setState(() {
-      // Check if the product is already in the cart
       final index = cart.indexWhere((item) => item.title == product.title);
-
       if (index != -1) {
-        // Already in cart → increase quantity
         cart[index].quantity++;
       } else {
-        // Not in cart → add with quantity 1
-        cart.add(
-          Product(
-            title: product.title,
-            type: product.type,
-            price: product.price,
-            image: product.image,
-            quantity: 1,
-          ),
-        );
+        cart.add(Product(
+          title: product.title,
+          type: product.type,
+          price: product.price,
+          image: product.image,
+          quantity: 1,
+        ));
       }
     });
 
@@ -111,40 +104,27 @@ class _HomeState extends State<Home> {
             ),
             ListTile(
               leading: Icon(Icons.home),
-              title: Text(
-                'Home',
-                style: TextStyle(fontFamily: 'PlayfairDisplay'),
-              ),
+              title: Text('Home', style: TextStyle(fontFamily: 'PlayfairDisplay')),
               onTap: () => Navigator.pop(context),
             ),
             ListTile(
               leading: Icon(Icons.shopping_bag),
-              title: Text(
-                'Cart',
-                style: TextStyle(fontFamily: 'PlayfairDisplay'),
-              ),
+              title: Text('Cart', style: TextStyle(fontFamily: 'PlayfairDisplay')),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Cart(cartItems: cart),
-                  ),
-                );
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => Cart(cartItems: cart),
+                ));
               },
             ),
             ListTile(
               leading: Icon(Icons.collections),
-              title: Text(
-                'Products',
-                style: TextStyle(fontFamily: 'PlayfairDisplay'),
-              ),
+              title: Text('Products', style: TextStyle(fontFamily: 'PlayfairDisplay')),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Products()),
-                );
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => Products(),
+                ));
               },
             ),
           ],
@@ -168,10 +148,9 @@ class _HomeState extends State<Home> {
           IconButton(
             icon: Icon(Icons.shopping_bag_outlined, color: Colors.black),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Cart(cartItems: cart)),
-              );
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) => Cart(cartItems: cart),
+              ));
             },
           ),
           SizedBox(width: 10),
@@ -188,7 +167,6 @@ class _HomeState extends State<Home> {
               width: double.infinity,
               fit: BoxFit.cover,
             ),
-
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 15),
               child: Text(
@@ -200,52 +178,53 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
-
             Column(
-              children:
-                  categories.map((cat) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 5,
-                        horizontal: 20,
-                      ),
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Image.asset(
-                            cat.image,
-                            height: 100,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
+              children: categories.map((cat) {
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => Products(scrollToType: cat.title),
+                    ));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Image.asset(
+                          cat.image,
+                          height: 100,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
+                        Container(
+                          height: 100,
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(102, 67, 65, 65),
                           ),
-                          Container(
-                            height: 100,
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(102, 67, 65, 65),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.bottomRight,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                cat.title,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'PlayfairDisplay',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 16,
-                                  letterSpacing: 1.5,
-                                ),
+                        ),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              cat.title,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'PlayfairDisplay',
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                                letterSpacing: 1.5,
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }).toList(),
             ),
-
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 20),
               child: Column(
@@ -269,83 +248,80 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
-
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children:
-                    trendyItems.map((item) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Column(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.asset(
-                                item.image,
-                                height: 100,
-                                width: 100,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              item.type,
-                              style: TextStyle(
-                                fontFamily: 'PlayfairDisplay',
-                                fontStyle: FontStyle.italic,
-                                fontSize: 12,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 100,
-                              child: Text(
-                                item.title,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: 'PlayfairDisplay',
-                                  fontSize: 13,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              'LKR ${item.price.toStringAsFixed(2)}',
-                              style: TextStyle(
-                                fontFamily: 'PlayfairDisplay',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 13,
-                              ),
-                            ),
-                            SizedBox(height: 5),
-                            SizedBox(
-                              width: 100,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  addToCart(item);
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(vertical: 6),
-                                  backgroundColor: Colors.black,
-                                ),
-                                child: Text(
-                                  'Add to Cart',
-                                  style: TextStyle(
-                                    fontFamily: 'PlayfairDisplay',
-                                    fontSize: 12,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                children: trendyItems.map((item) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Column(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset(
+                            item.image,
+                            height: 100,
+                            width: 100,
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      );
-                    }).toList(),
+                        SizedBox(height: 5),
+                        Text(
+                          item.type,
+                          style: TextStyle(
+                            fontFamily: 'PlayfairDisplay',
+                            fontStyle: FontStyle.italic,
+                            fontSize: 12,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 100,
+                          child: Text(
+                            item.title,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: 'PlayfairDisplay',
+                              fontSize: 13,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          'LKR ${item.price.toStringAsFixed(2)}',
+                          style: TextStyle(
+                            fontFamily: 'PlayfairDisplay',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13,
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        SizedBox(
+                          width: 100,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              addToCart(item);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(vertical: 6),
+                              backgroundColor: Colors.black,
+                            ),
+                            child: Text(
+                              'Add to Cart',
+                              style: TextStyle(
+                                fontFamily: 'PlayfairDisplay',
+                                fontSize: 12,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
               ),
             ),
-
             SizedBox(height: 20),
             Divider(
               color: Colors.grey.shade300,
@@ -353,13 +329,8 @@ class _HomeState extends State<Home> {
               indent: 20,
               endIndent: 20,
             ),
-
-            //footer content
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20.0,
-                vertical: 10,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -382,20 +353,14 @@ class _HomeState extends State<Home> {
                   onPressed: () {
                     // Navigator.pushNamed(context, '/about');
                   },
-                  child: Text(
-                    'About Us',
-                    style: TextStyle(fontFamily: 'PlayfairDisplay'),
-                  ),
+                  child: Text('About Us', style: TextStyle(fontFamily: 'PlayfairDisplay')),
                 ),
                 Text('|', style: TextStyle(color: Colors.grey)),
                 TextButton(
                   onPressed: () {
                     // Navigator.pushNamed(context, '/contact');
                   },
-                  child: Text(
-                    'Contact',
-                    style: TextStyle(fontFamily: 'PlayfairDisplay'),
-                  ),
+                  child: Text('Contact', style: TextStyle(fontFamily: 'PlayfairDisplay')),
                 ),
               ],
             ),
@@ -404,7 +369,7 @@ class _HomeState extends State<Home> {
               children: [
                 Icon(Icons.facebook, color: Colors.grey),
                 SizedBox(width: 10),
-                Icon(Icons.camera_alt, color: Colors.grey), // for Instagram
+                Icon(Icons.camera_alt, color: Colors.grey),
               ],
             ),
           ],

@@ -4,7 +4,8 @@ import 'package:jewelry_store/screens/cart.dart';
 import 'package:jewelry_store/screens/home.dart';
 
 class Products extends StatefulWidget {
-  const Products({super.key});
+  final String? scrollToType;
+  const Products({super.key, this.scrollToType});
 
   @override
   State<Products> createState() => _ProductsState();
@@ -12,8 +13,9 @@ class Products extends StatefulWidget {
 
 class _ProductsState extends State<Products> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   final List<Product> cart = [];
+  final ScrollController _scrollController = ScrollController();
+  final Map<String, GlobalKey> _sectionKeys = {};
 
   void addToCart(Product product) {
     setState(() {
@@ -22,15 +24,13 @@ class _ProductsState extends State<Products> {
       if (index != -1) {
         cart[index].quantity++;
       } else {
-        cart.add(
-          Product(
-            title: product.title,
-            type: product.type,
-            price: product.price,
-            image: product.image,
-            quantity: 1,
-          ),
-        );
+        cart.add(Product(
+          title: product.title,
+          type: product.type,
+          price: product.price,
+          image: product.image,
+          quantity: 1,
+        ));
       }
     });
 
@@ -47,9 +47,27 @@ class _ProductsState extends State<Products> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    // Delay scroll until after build completes
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.scrollToType != null &&
+          _sectionKeys.containsKey(widget.scrollToType)) {
+        final context = _sectionKeys[widget.scrollToType]!.currentContext;
+        if (context != null) {
+          Scrollable.ensureVisible(
+            context,
+            duration: Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
+          );
+        }
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     Map<String, List<Product>> groupedProducts = {};
-
     for (var product in allProducts) {
       groupedProducts.putIfAbsent(product.type, () => []).add(product);
     }
@@ -73,40 +91,26 @@ class _ProductsState extends State<Products> {
             ),
             ListTile(
               leading: Icon(Icons.home),
-              title: Text(
-                'Home',
-                style: TextStyle(fontFamily: 'PlayfairDisplay'),
-              ),
+              title: Text('Home', style: TextStyle(fontFamily: 'PlayfairDisplay')),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Home()),
-                );
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
               },
             ),
             ListTile(
               leading: Icon(Icons.shopping_bag),
-              title: Text(
-                'Cart',
-                style: TextStyle(fontFamily: 'PlayfairDisplay'),
-              ),
+              title: Text('Cart', style: TextStyle(fontFamily: 'PlayfairDisplay')),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => Cart(cartItems: cart),
-                  ),
+                  MaterialPageRoute(builder: (context) => Cart(cartItems: cart)),
                 );
               },
             ),
             ListTile(
               leading: Icon(Icons.collections),
-              title: Text(
-                'Products',
-                style: TextStyle(fontFamily: 'PlayfairDisplay'),
-              ),
+              title: Text('Products', style: TextStyle(fontFamily: 'PlayfairDisplay')),
               onTap: () => Navigator.pop(context),
             ),
           ],
@@ -127,11 +131,10 @@ class _ProductsState extends State<Products> {
         actions: [
           IconButton(
             icon: Icon(Icons.shopping_bag_outlined, color: Colors.black),
-            onPressed:
-                () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => Cart(cartItems: cart)),
-                ),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => Cart(cartItems: cart)),
+            ),
           ),
           SizedBox(width: 10),
           Icon(Icons.account_circle, color: Colors.black),
@@ -143,13 +146,17 @@ class _ProductsState extends State<Products> {
           children: [
             Expanded(
               child: ListView(
+                controller: _scrollController,
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 children: [
                   ...groupedProducts.entries.map((entry) {
                     String type = entry.key;
                     List<Product> products = entry.value;
+                    final key = GlobalKey();
+                    _sectionKeys[type] = key;
 
                     return Column(
+                      key: key,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(height: 30),
@@ -166,13 +173,12 @@ class _ProductsState extends State<Products> {
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: products.length,
-                          gridDelegate:
-                              SliverGridDelegateWithMaxCrossAxisExtent(
-                                maxCrossAxisExtent: 250,
-                                mainAxisSpacing: 10,
-                                crossAxisSpacing: 10,
-                                childAspectRatio: 0.7,
-                              ),
+                          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 250,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10,
+                            childAspectRatio: 0.7,
+                          ),
                           itemBuilder: (context, index) {
                             final item = products[index];
                             return Card(
