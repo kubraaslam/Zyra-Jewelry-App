@@ -53,9 +53,9 @@ class _ProductDetailState extends State<ProductDetail> {
       SnackBar(
         content: Text(
           '${product.title} added to cart!',
-          style: TextStyle(fontSize: 16),
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(fontSize: 16),
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: Theme.of(context).primaryColor,
         duration: Duration(seconds: 2),
       ),
     );
@@ -78,9 +78,9 @@ class _ProductDetailState extends State<ProductDetail> {
           isWishlisted
               ? '${product.title} added to wishlist!'
               : '${product.title} removed from wishlist!',
-          style: TextStyle(fontSize: 16),
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(fontSize: 16),
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: Theme.of(context).primaryColor,
         duration: Duration(seconds: 2),
       ),
     );
@@ -92,23 +92,23 @@ class _ProductDetailState extends State<ProductDetail> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         title: Text(
           item.title,
-          style: TextStyle(color: Colors.black, fontFamily: 'Roboto'),
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Theme.of(context).iconTheme.color, fontFamily: 'Roboto'),
         ),
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Theme.of(context).iconTheme.color),
         actions: [
           IconButton(
             icon: Icon(
               isWishlisted ? Icons.favorite : Icons.favorite_border,
-              color: isWishlisted ? Colors.red : Colors.black,
+              color: isWishlisted ? Colors.red : Theme.of(context).iconTheme.color,
             ),
             onPressed: () => toggleWishlist(item),
           ),
         ],
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Column(
@@ -119,7 +119,7 @@ class _ProductDetailState extends State<ProductDetail> {
             SizedBox(height: 20),
             Text(
               item.title,
-              style: TextStyle(
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Roboto',
@@ -128,7 +128,7 @@ class _ProductDetailState extends State<ProductDetail> {
             ),
             Text(
               item.type,
-              style: TextStyle(
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontStyle: FontStyle.italic,
                 color: Colors.grey,
                 fontSize: 14,
@@ -139,9 +139,9 @@ class _ProductDetailState extends State<ProductDetail> {
             SizedBox(height: 10),
             Text(
               'LKR ${item.price.toStringAsFixed(2)}',
-              style: TextStyle(
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontSize: 18,
-                color: Colors.black87,
+                color: Theme.of(context).iconTheme.color,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Roboto',
               ),
@@ -152,7 +152,7 @@ class _ProductDetailState extends State<ProductDetail> {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
                 item.description,
-                style: TextStyle(fontSize: 14, fontFamily: 'Roboto'),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 14, fontFamily: 'Roboto'),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -172,7 +172,7 @@ class _ProductDetailState extends State<ProductDetail> {
                 ),
                 Text(
                   quantity.toString(),
-                  style: TextStyle(fontSize: 20, fontFamily: 'Roboto'),
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 20, fontFamily: 'Roboto'),
                 ),
                 IconButton(
                   icon: Icon(Icons.add_circle_outline, size: 30),
@@ -189,8 +189,7 @@ class _ProductDetailState extends State<ProductDetail> {
               child: ElevatedButton(
                 onPressed: () => addToCart(item),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  foregroundColor: Colors.white,
+                  backgroundColor: Theme.of(context).primaryColor,
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),

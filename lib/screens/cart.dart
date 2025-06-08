@@ -48,11 +48,14 @@ class _CartState extends State<Cart> {
         width: double.infinity,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.grey.shade100,
+          color:
+              Theme.of(context).brightness == Brightness.dark
+                  ? Colors.grey.shade900
+                  : Colors.grey.shade100,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.shade300,
+              color: Theme.of(context).dividerColor,
               blurRadius: 6,
               offset: Offset(0, 4),
             ),
@@ -63,7 +66,7 @@ class _CartState extends State<Cart> {
           children: [
             Text(
               'Order Summary',
-              style: TextStyle(
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Roboto',
@@ -78,11 +81,15 @@ class _CartState extends State<Cart> {
                   children: [
                     Text(
                       '${item.title} × ${item.quantity}',
-                      style: TextStyle(fontFamily: 'Roboto'),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.titleMedium?.copyWith(fontFamily: 'Roboto'),
                     ),
                     Text(
                       'LKR ${(item.price * item.quantity).toStringAsFixed(2)}',
-                      style: TextStyle(fontFamily: 'Roboto'),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.titleMedium?.copyWith(fontFamily: 'Roboto'),
                     ),
                   ],
                 ),
@@ -94,14 +101,14 @@ class _CartState extends State<Cart> {
               children: [
                 Text(
                   'Subtotal:',
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     fontFamily: 'Roboto',
                   ),
                 ),
                 Text(
                   'LKR ${subtotal.toStringAsFixed(2)}',
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     fontFamily: 'Roboto',
                   ),
@@ -119,10 +126,12 @@ class _CartState extends State<Cart> {
                     SnackBar(
                       content: Text(
                         "Thank you for your purchase!",
-                        style: TextStyle(fontFamily: 'Roboto'),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.titleMedium?.copyWith(fontFamily: 'Roboto'),
                       ),
                       duration: Duration(seconds: 3),
-                      backgroundColor: Colors.black87,
+                      backgroundColor: Theme.of(context).colorScheme.surface,
                     ),
                   );
                   // Delay and navigate to home after showing the SnackBar
@@ -137,7 +146,7 @@ class _CartState extends State<Cart> {
                   });
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 40,
                     vertical: 12,
@@ -148,9 +157,9 @@ class _CartState extends State<Cart> {
                 ),
                 child: Text(
                   'Checkout',
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontSize: 16,
-                    color: Colors.white,
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                     fontFamily: 'Roboto',
                   ),
                 ),
@@ -173,11 +182,11 @@ class _CartState extends State<Cart> {
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
-              decoration: BoxDecoration(color: Colors.black),
+              decoration: BoxDecoration(color: Theme.of(context).primaryColor),
               child: Text(
                 'Zyra Jewelry',
-                style: TextStyle(
-                  color: Colors.white,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   fontSize: 24,
                   fontFamily: 'Roboto',
                 ),
@@ -187,7 +196,10 @@ class _CartState extends State<Cart> {
               leading: Icon(Icons.home),
               title: Text(
                 'Home',
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 18),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                ),
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -201,7 +213,10 @@ class _CartState extends State<Cart> {
               leading: Icon(Icons.shopping_bag),
               title: Text(
                 'Cart',
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 18),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                ),
               ),
               onTap: () => Navigator.pop(context),
             ),
@@ -209,7 +224,10 @@ class _CartState extends State<Cart> {
               leading: Icon(Icons.collections),
               title: Text(
                 'Products',
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 18),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                ),
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -223,7 +241,10 @@ class _CartState extends State<Cart> {
               leading: Icon(Icons.favorite),
               title: Text(
                 'Wishlist',
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 18),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                ),
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -240,12 +261,15 @@ class _CartState extends State<Cart> {
           ],
         ),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.menu_rounded, color: Colors.black),
+          icon: Icon(
+            Icons.menu_rounded,
+            color: Theme.of(context).iconTheme.color,
+          ),
           onPressed: () {
             _scaffoldKey.currentState?.openDrawer();
           },
@@ -253,9 +277,12 @@ class _CartState extends State<Cart> {
         title: Image.asset('assets/images/logo.png', height: 50),
         centerTitle: true,
         actions: [
-          Icon(Icons.shopping_bag_outlined, color: Colors.black),
+          Icon(
+            Icons.shopping_bag_outlined,
+            color: Theme.of(context).iconTheme.color,
+          ),
           SizedBox(width: 10),
-          Icon(Icons.account_circle, color: Colors.black),
+          Icon(Icons.account_circle, color: Theme.of(context).iconTheme.color),
           SizedBox(width: 10),
         ],
       ),
@@ -264,7 +291,7 @@ class _CartState extends State<Cart> {
               ? Center(
                 child: Text(
                   "No products in the cart",
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontFamily: 'Roboto',
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -277,7 +304,7 @@ class _CartState extends State<Cart> {
                     SizedBox(height: 20),
                     Text(
                       "My Cart",
-                      style: TextStyle(
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Roboto',
@@ -314,14 +341,18 @@ class _CartState extends State<Cart> {
                                   children: [
                                     Text(
                                       item.title,
-                                      style: TextStyle(
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.titleMedium?.copyWith(
                                         fontFamily: 'Roboto',
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     Text(
                                       item.type,
-                                      style: TextStyle(
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.titleMedium?.copyWith(
                                         fontFamily: 'Roboto',
                                         color: Colors.grey,
                                         fontSize: 12,
@@ -330,7 +361,9 @@ class _CartState extends State<Cart> {
                                     ),
                                     Text(
                                       "Unit Price: LKR ${item.price}",
-                                      style: TextStyle(
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.titleMedium?.copyWith(
                                         fontFamily: 'Roboto',
                                         color: Colors.grey,
                                         fontSize: 12,
@@ -347,7 +380,9 @@ class _CartState extends State<Cart> {
                                         ),
                                         Text(
                                           item.quantity.toString(),
-                                          style: TextStyle(
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.titleMedium?.copyWith(
                                             fontFamily: 'Roboto',
                                             fontSize: 20,
                                           ),
@@ -366,7 +401,9 @@ class _CartState extends State<Cart> {
                                 children: [
                                   Text(
                                     "LKR ${(item.price * item.quantity).toStringAsFixed(2)}",
-                                    style: TextStyle(
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.titleMedium?.copyWith(
                                       fontWeight: FontWeight.bold,
                                       fontFamily: 'Roboto',
                                     ),
@@ -388,7 +425,7 @@ class _CartState extends State<Cart> {
                     ),
                     SizedBox(height: 15),
                     Divider(
-                      color: Colors.grey.shade300,
+                      color: Theme.of(context).dividerColor,
                       thickness: 1,
                       indent: 20,
                       endIndent: 20,

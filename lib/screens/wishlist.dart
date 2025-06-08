@@ -26,7 +26,7 @@ class _WishlistState extends State<Wishlist> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('${product.title} removed from wishlist'),
-        backgroundColor: Colors.black,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         duration: Duration(seconds: 2),
       ),
     );
@@ -41,11 +41,11 @@ class _WishlistState extends State<Wishlist> {
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
-              decoration: BoxDecoration(color: Colors.black),
+              decoration: BoxDecoration(color: Theme.of(context).primaryColor),
               child: Text(
                 'Zyra Jewelry',
-                style: TextStyle(
-                  color: Colors.white,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   fontSize: 24,
                   fontFamily: 'Roboto',
                 ),
@@ -55,7 +55,7 @@ class _WishlistState extends State<Wishlist> {
               leading: Icon(Icons.home),
               title: Text(
                 'Home',
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 18),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontFamily: 'Roboto', fontSize: 18),
               ),
               onTap: () => Navigator.pop(context),
             ),
@@ -63,7 +63,7 @@ class _WishlistState extends State<Wishlist> {
               leading: Icon(Icons.collections),
               title: Text(
                 'Products',
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 18),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontFamily: 'Roboto', fontSize: 18),
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -77,7 +77,7 @@ class _WishlistState extends State<Wishlist> {
               leading: Icon(Icons.shopping_bag),
               title: Text(
                 'Cart',
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 18),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontFamily: 'Roboto', fontSize: 18),
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -93,7 +93,7 @@ class _WishlistState extends State<Wishlist> {
               leading: Icon(Icons.favorite),
               title: Text(
                 'Wishlist',
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 18),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontFamily: 'Roboto', fontSize: 18),
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -102,12 +102,12 @@ class _WishlistState extends State<Wishlist> {
           ],
         ),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.menu_rounded, color: Colors.black),
+          icon: Icon(Icons.menu_rounded, color: Theme.of(context).iconTheme.color),
           onPressed: () {
             _scaffoldKey.currentState?.openDrawer();
           },
@@ -118,7 +118,7 @@ class _WishlistState extends State<Wishlist> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.shopping_bag_outlined, color: Colors.black),
+            icon: Icon(Icons.shopping_bag_outlined, color: Theme.of(context).iconTheme.color),
             onPressed: () {
               Navigator.push(
                 context,
@@ -129,7 +129,7 @@ class _WishlistState extends State<Wishlist> {
             },
           ),
           SizedBox(width: 10),
-          Icon(Icons.account_circle, color: Colors.black),
+          Icon(Icons.account_circle, color: Theme.of(context).iconTheme.color),
           SizedBox(width: 10),
         ],
       ),
@@ -138,7 +138,7 @@ class _WishlistState extends State<Wishlist> {
               ? Center(
                 child: Text(
                   'No items in your wishlist.',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
               )
               : ListView.builder(
@@ -155,7 +155,7 @@ class _WishlistState extends State<Wishlist> {
                       ),
                       title: Text(
                         product.title,
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       subtitle: Text('LKR ${product.price.toStringAsFixed(2)}'),
                       trailing: IconButton(

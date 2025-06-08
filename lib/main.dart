@@ -14,8 +14,32 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Zyra Jewelry',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 240, 210, 145)),
+        colorScheme: ColorScheme.light(
+          primary: Colors.black, // selected color in light mode
+        ),
+        scaffoldBackgroundColor: Colors.white, // background of screens
+        textTheme: TextTheme(
+          bodyLarge: TextStyle(color: Colors.black),
+          bodyMedium: TextStyle(color: Colors.black),
+          titleLarge: TextStyle(color: Colors.black),
+          titleMedium: TextStyle(color: Colors.black),
+          labelLarge: TextStyle(color: Colors.black),
+        ),
       ),
+      darkTheme: ThemeData(
+        colorScheme: ColorScheme.dark(
+          primary: Colors.white, // selected color in dark mode
+        ),
+        scaffoldBackgroundColor: Colors.black, // background of screens
+        textTheme: TextTheme(
+          bodyLarge: TextStyle(color: Colors.white),
+          bodyMedium: TextStyle(color: Colors.white),
+          titleLarge: TextStyle(color: Colors.white),
+          titleMedium: TextStyle(color: Colors.white),
+          labelLarge: TextStyle(color: Colors.white),
+        ),
+      ),
+      themeMode: ThemeMode.system, // Automatically switch between light/dark
       home: Login(),
     );
   }
@@ -43,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         title: Text(widget.title),
       ),
       body: Center(

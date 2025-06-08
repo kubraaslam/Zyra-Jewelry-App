@@ -8,7 +8,7 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(32.0),
@@ -23,7 +23,7 @@ class Login extends StatelessWidget {
                 // Login Title
                 Text(
                   'LOGIN',
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontFamily: 'Roboto',
                     fontSize: 35,
                     fontWeight: FontWeight.w900,
@@ -32,7 +32,7 @@ class Login extends StatelessWidget {
                 SizedBox(height: 10),
                 Text(
                   'Welcome back! Please login to your account',
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontFamily: 'Roboto',
                     fontWeight: FontWeight.w500,
                     fontSize: 18,
@@ -47,7 +47,7 @@ class Login extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Email:',
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontFamily: 'Roboto',
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
@@ -72,7 +72,7 @@ class Login extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Password:',
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontFamily: 'Roboto',
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
@@ -99,7 +99,7 @@ class Login extends StatelessWidget {
                   height: 50,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
+                      backgroundColor: Theme.of(context).primaryColor,
                     ),
                     onPressed: () {
                       Navigator.push(
@@ -109,10 +109,10 @@ class Login extends StatelessWidget {
                     },
                     child: Text(
                       'Login',
-                      style: TextStyle(
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontFamily: 'Roboto',
                         fontSize: 20,
-                        color: Colors.white,
+                        backgroundColor: Theme.of(context).primaryColor,
                       ),
                     ),
                   ),
@@ -125,7 +125,7 @@ class Login extends StatelessWidget {
                   children: [
                     Text(
                       'New User?',
-                      style: TextStyle(
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontFamily: 'Roboto',
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -140,7 +140,7 @@ class Login extends StatelessWidget {
                       },
                       child: Text(
                         'Sign up',
-                        style: TextStyle(
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontFamily: 'Roboto',
                           fontWeight: FontWeight.w500,
                           fontSize: 18,

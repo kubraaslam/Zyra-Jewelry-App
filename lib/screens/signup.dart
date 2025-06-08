@@ -7,7 +7,7 @@ class Signup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(40.0),
@@ -21,7 +21,7 @@ class Signup extends StatelessWidget {
                 // Signup Title
                 Text(
                   'SIGN UP',
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontFamily: 'Roboto',
                     fontSize: 35,
                     fontWeight: FontWeight.w900,
@@ -34,7 +34,7 @@ class Signup extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Username:',
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontFamily: 'Roboto',
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
@@ -59,7 +59,7 @@ class Signup extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Email:',
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontFamily: 'Roboto',
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
@@ -84,7 +84,7 @@ class Signup extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Password:',
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontFamily: 'Roboto',
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
@@ -111,7 +111,7 @@ class Signup extends StatelessWidget {
                   height: 50,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
+                      backgroundColor: Theme.of(context).primaryColor,
                     ),
                     onPressed: () {
                       Navigator.push(
@@ -121,10 +121,10 @@ class Signup extends StatelessWidget {
                     },
                     child: Text(
                       'Create Account',
-                      style: TextStyle(
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontFamily: 'Roboto',
                         fontSize: 20,
-                        color: Colors.white,
+                        backgroundColor: Theme.of(context).primaryColor,
                       ),
                     ),
                   ),
@@ -137,7 +137,7 @@ class Signup extends StatelessWidget {
                   children: [
                     Text(
                       'Already have an account?',
-                      style: TextStyle(
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontFamily: 'Roboto',
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
@@ -152,7 +152,7 @@ class Signup extends StatelessWidget {
                       },
                       child: Text(
                         'Login',
-                        style: TextStyle(
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontFamily: 'Roboto',
                           fontSize: 18,
                           decoration: TextDecoration.underline,
