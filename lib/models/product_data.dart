@@ -62,7 +62,7 @@ final List<Product> allProducts = [
     type: 'Earring',
     price: 2850,
     image: 'assets/images/products/butterfly-pearl-earring.jpeg',
-    description: '',
+    description: "Graceful and enchanting, the Butterfly Pearl Earring blends delicate design with timeless elegance. Featuring a dainty butterfly motif paired with lustrous pearls, this piece captures the essence of transformation and beauty. It's the perfect accessory to elevate your look with a soft, feminine charm.",
   ),
   Product(
     title: 'Handcrafted Bracelet',
