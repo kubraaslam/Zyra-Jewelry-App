@@ -16,6 +16,9 @@ class Products extends StatefulWidget {
 class _ProductsState extends State<Products> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<Product> cartItems = [];
+
+  List<Product> wishlistItems = [];
+
   final Map<String, GlobalKey> _sectionKeys = {};
 
   void addToCart(Product product) {
@@ -128,7 +131,11 @@ class _ProductsState extends State<Products> {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Wishlist()),
+                  MaterialPageRoute(
+                    builder:
+                        (context) =>
+                            Wishlist(wishlist: wishlistItems, cart: cartItems),
+                  ),
                 );
               },
             ),
@@ -217,6 +224,7 @@ class _ProductsState extends State<Products> {
                                         (context) => ProductDetail(
                                           item: item,
                                           cart: cartItems,
+                                          wishlist: wishlistItems,
                                         ),
                                   ),
                                 );
@@ -318,7 +326,11 @@ class _ProductsState extends State<Products> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavBar(currentIndex: 2),
+      bottomNavigationBar: BottomNavBar(
+        currentIndex: 2,
+        cart: cartItems,
+        wishlist: wishlistItems,
+      ),
     );
   }
 }

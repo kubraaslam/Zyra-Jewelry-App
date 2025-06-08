@@ -3,9 +3,15 @@ import 'package:jewelry_store/models/product_data.dart';
 
 class ProductDetail extends StatefulWidget {
   final Product item;
-  final List<Product> cart; // Shared cart list
+  final List<Product> cart;     // Shared cart list
+  final List<Product> wishlist; // Shared wishlist list
 
-  const ProductDetail({super.key, required this.item, required this.cart});
+  const ProductDetail({
+    super.key,
+    required this.item,
+    required this.cart,
+    required this.wishlist,
+  });
 
   @override
   State<ProductDetail> createState() => _ProductDetailState();
@@ -13,6 +19,14 @@ class ProductDetail extends StatefulWidget {
 
 class _ProductDetailState extends State<ProductDetail> {
   int quantity = 1;
+  bool isWishlisted = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Check if this product is already in the wishlist
+    isWishlisted = widget.wishlist.any((p) => p.title == widget.item.title);
+  }
 
   void addToCart(Product product) {
     final index = widget.cart.indexWhere((item) => item.title == product.title);
@@ -47,6 +61,31 @@ class _ProductDetailState extends State<ProductDetail> {
     );
   }
 
+  void toggleWishlist(Product product) {
+    setState(() {
+      if (isWishlisted) {
+        widget.wishlist.removeWhere((p) => p.title == product.title);
+        isWishlisted = false;
+      } else {
+        widget.wishlist.add(product);
+        isWishlisted = true;
+      }
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          isWishlisted
+              ? '${product.title} added to wishlist!'
+              : '${product.title} removed from wishlist!',
+          style: TextStyle(fontSize: 16),
+        ),
+        backgroundColor: Colors.black,
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final item = widget.item;
@@ -59,6 +98,15 @@ class _ProductDetailState extends State<ProductDetail> {
           style: TextStyle(color: Colors.black, fontFamily: 'Roboto'),
         ),
         iconTheme: IconThemeData(color: Colors.black),
+        actions: [
+          IconButton(
+            icon: Icon(
+              isWishlisted ? Icons.favorite : Icons.favorite_border,
+              color: isWishlisted ? Colors.red : Colors.black,
+            ),
+            onPressed: () => toggleWishlist(item),
+          ),
+        ],
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -101,7 +149,7 @@ class _ProductDetailState extends State<ProductDetail> {
             ),
             SizedBox(height: 20),
             Padding(
-              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
                 item.description,
                 style: TextStyle(fontSize: 14, fontFamily: 'Roboto'),
@@ -110,9 +158,7 @@ class _ProductDetailState extends State<ProductDetail> {
             ),
             SizedBox(height: 30),
             Row(
-              mainAxisAlignment:
-                  MainAxisAlignment
-                      .center, // Center the row children horizontally
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 IconButton(
                   icon: Icon(Icons.remove_circle_outline, size: 30),

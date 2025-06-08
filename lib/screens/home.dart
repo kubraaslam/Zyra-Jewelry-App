@@ -18,8 +18,7 @@ class _HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<Product> cartItems = [];
 
-  final int _selectedIndex = 0;
-
+  List<Product> wishlistItems = [];
 
   final List<Category> categories = [
     Category(title: 'RINGS', image: 'assets/images/rings.jpg'),
@@ -117,18 +116,24 @@ class _HomeState extends State<Home> {
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24,
-                  fontFamily: 'Roboto'
+                  fontFamily: 'Roboto',
                 ),
               ),
             ),
             ListTile(
               leading: Icon(Icons.home),
-              title: Text('Home', style: TextStyle(fontFamily: 'Roboto', fontSize: 18)),
+              title: Text(
+                'Home',
+                style: TextStyle(fontFamily: 'Roboto', fontSize: 18),
+              ),
               onTap: () => Navigator.pop(context),
             ),
             ListTile(
               leading: Icon(Icons.collections),
-              title: Text('Products', style: TextStyle(fontFamily: 'Roboto', fontSize: 18)),
+              title: Text(
+                'Products',
+                style: TextStyle(fontFamily: 'Roboto', fontSize: 18),
+              ),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -139,7 +144,10 @@ class _HomeState extends State<Home> {
             ),
             ListTile(
               leading: Icon(Icons.shopping_bag),
-              title: Text('Cart', style: TextStyle(fontFamily: 'Roboto', fontSize: 18)),
+              title: Text(
+                'Cart',
+                style: TextStyle(fontFamily: 'Roboto', fontSize: 18),
+              ),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -152,12 +160,17 @@ class _HomeState extends State<Home> {
             ),
             ListTile(
               leading: Icon(Icons.favorite),
-              title: Text('Wishlist', style: TextStyle(fontFamily: 'Roboto', fontSize: 18)),
+              title: Text(
+                'Wishlist',
+                style: TextStyle(fontFamily: 'Roboto', fontSize: 18),
+              ),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Wishlist()),
+                  MaterialPageRoute(
+                    builder: (context) => Wishlist(wishlist: wishlistItems, cart: cartItems),
+                  ),
                 );
               },
             ),
@@ -184,7 +197,9 @@ class _HomeState extends State<Home> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Cart(cartItems: cartItems)),
+                MaterialPageRoute(
+                  builder: (context) => Cart(cartItems: cartItems),
+                ),
               );
             },
           ),
@@ -220,10 +235,7 @@ class _HomeState extends State<Home> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder:
-                                (context) => Products(),
-                          ),
+                          MaterialPageRoute(builder: (context) => Products()),
                         );
                       },
                       child: Padding(
@@ -283,7 +295,11 @@ class _HomeState extends State<Home> {
                   SizedBox(height: 2),
                   Text(
                     'Elevate your style with our curated modern pieces',
-                    style: TextStyle(fontFamily: 'Roboto', fontSize: 16, color: Color.fromARGB(255, 115, 112, 112)),
+                    style: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 16,
+                      color: Color.fromARGB(255, 115, 112, 112),
+                    ),
                   ),
                 ],
               ),
@@ -298,7 +314,12 @@ class _HomeState extends State<Home> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ProductDetail(item: item, cart: cartItems),
+                              builder:
+                                  (context) => ProductDetail(
+                                    item: item,
+                                    cart: cartItems,
+                                    wishlist: wishlistItems,
+                                  ),
                             ),
                           );
                         },
@@ -403,7 +424,11 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavBar(currentIndex: _selectedIndex),
+      bottomNavigationBar: BottomNavBar(
+        currentIndex: 0,
+        cart: cartItems,
+        wishlist: wishlistItems,
+      ),
     );
   }
 }

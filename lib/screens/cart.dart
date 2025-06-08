@@ -3,6 +3,7 @@ import 'package:jewelry_store/models/bottom_navbar.dart';
 import 'package:jewelry_store/models/product_data.dart';
 import 'package:jewelry_store/screens/products.dart';
 import 'package:jewelry_store/screens/home.dart';
+import 'package:jewelry_store/screens/wishlist.dart';
 
 class Cart extends StatefulWidget {
   final List<Product> cartItems;
@@ -15,6 +16,10 @@ class Cart extends StatefulWidget {
 
 class _CartState extends State<Cart> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final List<Product> cartItems = [];
+
+  List<Product> wishlistItems = [];
 
   void increaseQuantity(int index) {
     setState(() {
@@ -180,7 +185,10 @@ class _CartState extends State<Cart> {
             ),
             ListTile(
               leading: Icon(Icons.home),
-              title: Text('Home', style: TextStyle(fontFamily: 'Roboto')),
+              title: Text(
+                'Home',
+                style: TextStyle(fontFamily: 'Roboto', fontSize: 18),
+              ),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -191,17 +199,41 @@ class _CartState extends State<Cart> {
             ),
             ListTile(
               leading: Icon(Icons.shopping_bag),
-              title: Text('Cart', style: TextStyle(fontFamily: 'Roboto')),
+              title: Text(
+                'Cart',
+                style: TextStyle(fontFamily: 'Roboto', fontSize: 18),
+              ),
               onTap: () => Navigator.pop(context),
             ),
             ListTile(
               leading: Icon(Icons.collections),
-              title: Text('Products', style: TextStyle(fontFamily: 'Roboto')),
+              title: Text(
+                'Products',
+                style: TextStyle(fontFamily: 'Roboto', fontSize: 18),
+              ),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Products()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.favorite),
+              title: Text(
+                'Wishlist',
+                style: TextStyle(fontFamily: 'Roboto', fontSize: 18),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (context) =>
+                            Wishlist(wishlist: wishlistItems, cart: cartItems),
+                  ),
                 );
               },
             ),
@@ -366,7 +398,11 @@ class _CartState extends State<Cart> {
                   ],
                 ),
               ),
-      bottomNavigationBar: BottomNavBar(currentIndex: -1),
+      bottomNavigationBar: BottomNavBar(
+        currentIndex: -1,
+        cart: cartItems,
+        wishlist: wishlistItems,
+      ),
     );
   }
 }
