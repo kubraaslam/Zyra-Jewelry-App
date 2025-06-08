@@ -146,7 +146,10 @@ class _CartState extends State<Cart> {
                   });
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  backgroundColor:
+                      Theme.of(context).brightness == Brightness.light
+                          ? Colors.black
+                          : Colors.white,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 40,
                     vertical: 12,
@@ -158,9 +161,12 @@ class _CartState extends State<Cart> {
                 child: Text(
                   'Checkout',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontSize: 16,
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                     fontFamily: 'Roboto',
+                    fontSize: 16,
+                    color:
+                        Theme.of(context).brightness == Brightness.light
+                            ? Colors.white
+                            : Colors.black,
                   ),
                 ),
               ),

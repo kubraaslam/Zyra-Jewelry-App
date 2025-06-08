@@ -45,7 +45,7 @@ class _ProductsState extends State<Products> {
       SnackBar(
         content: Text(
           '${product.title} added to cart!',
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(fontSize: 16),
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(fontSize: 16, color: Colors.white),
         ),
         backgroundColor: Theme.of(context).primaryColor,
         duration: Duration(seconds: 2),
@@ -80,7 +80,10 @@ class _ProductsState extends State<Products> {
               leading: Icon(Icons.home),
               title: Text(
                 'Home',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontFamily: 'Roboto', fontSize: 18),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                ),
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -94,7 +97,10 @@ class _ProductsState extends State<Products> {
               leading: Icon(Icons.collections),
               title: Text(
                 'Products',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontFamily: 'Roboto', fontSize: 18),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                ),
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -108,7 +114,10 @@ class _ProductsState extends State<Products> {
               leading: Icon(Icons.shopping_bag),
               title: Text(
                 'Cart',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontFamily: 'Roboto', fontSize: 18),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                ),
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -124,7 +133,10 @@ class _ProductsState extends State<Products> {
               leading: Icon(Icons.favorite),
               title: Text(
                 'Wishlist',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontFamily: 'Roboto', fontSize: 18),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                ),
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -146,7 +158,10 @@ class _ProductsState extends State<Products> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.menu_rounded, color: Theme.of(context).iconTheme.color),
+          icon: Icon(
+            Icons.menu_rounded,
+            color: Theme.of(context).iconTheme.color,
+          ),
           onPressed: () {
             _scaffoldKey.currentState?.openDrawer();
           },
@@ -157,7 +172,10 @@ class _ProductsState extends State<Products> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.shopping_bag_outlined, color: Theme.of(context).iconTheme.color),
+            icon: Icon(
+              Icons.shopping_bag_outlined,
+              color: Theme.of(context).iconTheme.color,
+            ),
             onPressed: () {
               Navigator.push(
                 context,
@@ -193,7 +211,9 @@ class _ProductsState extends State<Products> {
                         Center(
                           child: Text(
                             '${type}s',
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            style: Theme.of(
+                              context,
+                            ).textTheme.titleMedium?.copyWith(
                               fontFamily: 'Roboto',
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
@@ -250,7 +270,9 @@ class _ProductsState extends State<Products> {
                                       SizedBox(height: 8),
                                       Text(
                                         item.title,
-                                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.titleMedium?.copyWith(
                                           fontFamily: 'Roboto',
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16,
@@ -260,9 +282,12 @@ class _ProductsState extends State<Products> {
                                       SizedBox(height: 4),
                                       Text(
                                         'LKR ${item.price.toStringAsFixed(2)}',
-                                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.titleMedium?.copyWith(
                                           fontFamily: 'Roboto',
-                                          color: Theme.of(context).iconTheme.color,
+                                          color:
+                                              Theme.of(context).iconTheme.color,
                                           fontWeight: FontWeight.w500,
                                           fontSize: 14,
                                         ),
@@ -274,15 +299,27 @@ class _ProductsState extends State<Products> {
                                         child: ElevatedButton(
                                           onPressed: () => addToCart(item),
                                           style: ElevatedButton.styleFrom(
-                                            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                            backgroundColor:
+                                                Theme.of(context).brightness ==
+                                                        Brightness.light
+                                                    ? Colors.black
+                                                    : Colors.white,
                                             padding: EdgeInsets.zero,
                                           ),
                                           child: Text(
                                             'Add to Cart',
-                                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                            style: Theme.of(
+                                              context,
+                                            ).textTheme.titleMedium?.copyWith(
                                               fontFamily: 'Roboto',
-                                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                                               fontSize: 14,
+                                              color:
+                                                  Theme.of(
+                                                            context,
+                                                          ).brightness ==
+                                                          Brightness.light
+                                                      ? Colors.white
+                                                      : Colors.black,
                                             ),
                                           ),
                                         ),
@@ -309,7 +346,9 @@ class _ProductsState extends State<Products> {
                       children: [
                         Text(
                           '© 2025 All Rights Reserved',
-                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleMedium?.copyWith(
                             fontFamily: 'Roboto',
                             fontSize: 12,
                             color: Colors.grey,

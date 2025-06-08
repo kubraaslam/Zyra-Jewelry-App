@@ -3,7 +3,7 @@ import 'package:jewelry_store/models/product_data.dart';
 
 class ProductDetail extends StatefulWidget {
   final Product item;
-  final List<Product> cart;     // Shared cart list
+  final List<Product> cart; // Shared cart list
   final List<Product> wishlist; // Shared wishlist list
 
   const ProductDetail({
@@ -53,7 +53,10 @@ class _ProductDetailState extends State<ProductDetail> {
       SnackBar(
         content: Text(
           '${product.title} added to cart!',
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(fontSize: 16),
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+            fontSize: 16,
+            color:Colors.white
+          ),
         ),
         backgroundColor: Theme.of(context).primaryColor,
         duration: Duration(seconds: 2),
@@ -78,7 +81,10 @@ class _ProductDetailState extends State<ProductDetail> {
           isWishlisted
               ? '${product.title} added to wishlist!'
               : '${product.title} removed from wishlist!',
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(fontSize: 16),
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+            fontSize: 16,
+            color: Colors.white
+          ),
         ),
         backgroundColor: Theme.of(context).primaryColor,
         duration: Duration(seconds: 2),
@@ -95,14 +101,18 @@ class _ProductDetailState extends State<ProductDetail> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         title: Text(
           item.title,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Theme.of(context).iconTheme.color, fontFamily: 'Roboto'),
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            color: Theme.of(context).iconTheme.color,
+            fontFamily: 'Roboto',
+          ),
         ),
         iconTheme: IconThemeData(color: Theme.of(context).iconTheme.color),
         actions: [
           IconButton(
             icon: Icon(
               isWishlisted ? Icons.favorite : Icons.favorite_border,
-              color: isWishlisted ? Colors.red : Theme.of(context).iconTheme.color,
+              color:
+                  isWishlisted ? Colors.red : Theme.of(context).iconTheme.color,
             ),
             onPressed: () => toggleWishlist(item),
           ),
@@ -152,7 +162,10 @@ class _ProductDetailState extends State<ProductDetail> {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
                 item.description,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 14, fontFamily: 'Roboto'),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontSize: 14,
+                  fontFamily: 'Roboto',
+                ),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -172,7 +185,10 @@ class _ProductDetailState extends State<ProductDetail> {
                 ),
                 Text(
                   quantity.toString(),
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 20, fontFamily: 'Roboto'),
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontSize: 20,
+                    fontFamily: 'Roboto',
+                  ),
                 ),
                 IconButton(
                   icon: Icon(Icons.add_circle_outline, size: 30),
@@ -195,6 +211,7 @@ class _ProductDetailState extends State<ProductDetail> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   textStyle: TextStyle(fontSize: 16, fontFamily: 'Roboto'),
+                  foregroundColor: Colors.white
                 ),
                 child: Text('Add to Cart'),
               ),

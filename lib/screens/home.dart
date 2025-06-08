@@ -94,7 +94,7 @@ class _HomeState extends State<Home> {
       SnackBar(
         content: Text(
           '${product.title} added to cart!',
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(fontSize: 16),
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(fontSize: 16, color: Colors.white),
         ),
         backgroundColor: Theme.of(context).primaryColor,
         duration: Duration(seconds: 2),
@@ -111,7 +111,9 @@ class _HomeState extends State<Home> {
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
-              decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+              decoration: BoxDecoration(
+                color: Theme.of(context).scaffoldBackgroundColor,
+              ),
               child: Text(
                 'Zyra Jewelry',
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -124,7 +126,10 @@ class _HomeState extends State<Home> {
               leading: Icon(Icons.home),
               title: Text(
                 'Home',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontFamily: 'Roboto', fontSize: 18),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                ),
               ),
               onTap: () => Navigator.pop(context),
             ),
@@ -132,7 +137,10 @@ class _HomeState extends State<Home> {
               leading: Icon(Icons.collections),
               title: Text(
                 'Products',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontFamily: 'Roboto', fontSize: 18),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                ),
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -146,7 +154,10 @@ class _HomeState extends State<Home> {
               leading: Icon(Icons.shopping_bag),
               title: Text(
                 'Cart',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontFamily: 'Roboto', fontSize: 18),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                ),
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -162,7 +173,10 @@ class _HomeState extends State<Home> {
               leading: Icon(Icons.favorite),
               title: Text(
                 'Wishlist',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontFamily: 'Roboto', fontSize: 18),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                ),
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -184,7 +198,10 @@ class _HomeState extends State<Home> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.menu_rounded, color: Theme.of(context).iconTheme.color),
+          icon: Icon(
+            Icons.menu_rounded,
+            color: Theme.of(context).iconTheme.color,
+          ),
           onPressed: () {
             _scaffoldKey.currentState?.openDrawer();
           },
@@ -195,7 +212,10 @@ class _HomeState extends State<Home> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.shopping_bag_outlined, color: Theme.of(context).iconTheme.color),
+            icon: Icon(
+              Icons.shopping_bag_outlined,
+              color: Theme.of(context).iconTheme.color,
+            ),
             onPressed: () {
               Navigator.push(
                 context,
@@ -207,7 +227,10 @@ class _HomeState extends State<Home> {
           ),
           SizedBox(width: 10),
           IconButton(
-            icon: Icon(Icons.account_circle, color: Theme.of(context).iconTheme.color),
+            icon: Icon(
+              Icons.account_circle,
+              color: Theme.of(context).iconTheme.color,
+            ),
             onPressed: () {
               Navigator.push(
                 context,
@@ -270,9 +293,14 @@ class _HomeState extends State<Home> {
                             ),
                             Container(
                               height: 150,
+                              width: double.infinity,
                               decoration: BoxDecoration(
-                                // ignore: deprecated_member_use
-                                color: Theme.of(context).colorScheme.surface.withOpacity(0.6),
+                                color: Color.fromRGBO(
+                                  128,
+                                  128,
+                                  128,
+                                  0.3,
+                                ), // grey with 30% opacity
                               ),
                             ),
                             Align(
@@ -281,7 +309,9 @@ class _HomeState extends State<Home> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   cat.title,
-                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.titleMedium?.copyWith(
                                     fontFamily: 'Roboto',
                                     fontWeight: FontWeight.w500,
                                     fontSize: 16,
@@ -314,7 +344,7 @@ class _HomeState extends State<Home> {
                     style: TextStyle(
                       fontFamily: 'Roboto',
                       fontSize: 16,
-                      color: Colors.grey
+                      color: Colors.grey,
                     ),
                   ),
                 ],
@@ -355,7 +385,9 @@ class _HomeState extends State<Home> {
                               SizedBox(height: 5),
                               Text(
                                 item.type,
-                                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.titleMedium?.copyWith(
                                   fontFamily: 'Roboto',
                                   fontStyle: FontStyle.italic,
                                   fontSize: 14,
@@ -367,7 +399,9 @@ class _HomeState extends State<Home> {
                                 child: Text(
                                   item.title,
                                   textAlign: TextAlign.center,
-                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.titleMedium?.copyWith(
                                     fontFamily: 'Roboto',
                                     fontSize: 16,
                                   ),
@@ -376,7 +410,9 @@ class _HomeState extends State<Home> {
                               SizedBox(height: 5),
                               Text(
                                 'LKR ${item.price.toStringAsFixed(2)}',
-                                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.titleMedium?.copyWith(
                                   fontFamily: 'Roboto',
                                   fontWeight: FontWeight.w900,
                                   fontSize: 16,
@@ -391,13 +427,24 @@ class _HomeState extends State<Home> {
                                   },
                                   style: ElevatedButton.styleFrom(
                                     padding: EdgeInsets.symmetric(vertical: 8),
-                                    backgroundColor: Theme.of(context).primaryColor,
+                                    backgroundColor:
+                                        Theme.of(context).brightness ==
+                                                  Brightness.light
+                                              ? Colors.black
+                                              : Colors.white,
                                   ),
                                   child: Text(
                                     'Add to Cart',
-                                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.titleMedium?.copyWith(
                                       fontFamily: 'Roboto',
                                       fontSize: 14,
+                                      color:
+                                          Theme.of(context).brightness ==
+                                                  Brightness.light
+                                              ? Colors.white
+                                              : Colors.black,
                                     ),
                                   ),
                                 ),
