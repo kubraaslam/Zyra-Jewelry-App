@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jewelry_store/models/bottom_navbar.dart';
 import 'package:jewelry_store/models/product_data.dart';
 import 'package:jewelry_store/screens/products.dart';
 import 'package:jewelry_store/screens/home.dart';
@@ -179,10 +180,7 @@ class _CartState extends State<Cart> {
             ),
             ListTile(
               leading: Icon(Icons.home),
-              title: Text(
-                'Home',
-                style: TextStyle(fontFamily: 'Roboto'),
-              ),
+              title: Text('Home', style: TextStyle(fontFamily: 'Roboto')),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -193,18 +191,12 @@ class _CartState extends State<Cart> {
             ),
             ListTile(
               leading: Icon(Icons.shopping_bag),
-              title: Text(
-                'Cart',
-                style: TextStyle(fontFamily: 'Roboto'),
-              ),
+              title: Text('Cart', style: TextStyle(fontFamily: 'Roboto')),
               onTap: () => Navigator.pop(context),
             ),
             ListTile(
               leading: Icon(Icons.collections),
-              title: Text(
-                'Products',
-                style: TextStyle(fontFamily: 'Roboto'),
-              ),
+              title: Text('Products', style: TextStyle(fontFamily: 'Roboto')),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -242,7 +234,7 @@ class _CartState extends State<Cart> {
                   "No products in the cart",
                   style: TextStyle(
                     fontFamily: 'Roboto',
-                    fontSize: 18,
+                    fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -374,6 +366,7 @@ class _CartState extends State<Cart> {
                   ],
                 ),
               ),
+      bottomNavigationBar: BottomNavBar(currentIndex: -1),
     );
   }
 }

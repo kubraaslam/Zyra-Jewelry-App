@@ -33,7 +33,7 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      currentIndex: currentIndex,
+      currentIndex: currentIndex >= 0 && currentIndex <= 2 ? currentIndex : 0,
       selectedItemColor: Colors.black,
       unselectedItemColor: Colors.grey,
       onTap: (index) => _onItemTapped(context, index),
@@ -42,6 +42,8 @@ class BottomNavBar extends StatelessWidget {
         BottomNavigationBarItem(icon: Icon(Icons.favorite_border), label: 'Wishlist'),
         BottomNavigationBarItem(icon: Icon(Icons.collections), label: 'Products'),
       ],
+      // Hide selection effect if index is invalid
+      selectedIconTheme: currentIndex == -1 ? IconThemeData(opacity: 0.5) : null,
     );
   }
 }
