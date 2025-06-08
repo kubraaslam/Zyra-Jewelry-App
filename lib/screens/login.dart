@@ -17,16 +17,16 @@ class Login extends StatelessWidget {
               children: [
                 SizedBox(height: 30), // Top spacing
                 // Logo
-                Image.asset('assets/images/logo.png', height: 100),
+                Image.asset('assets/images/logo.png', height: 150),
                 SizedBox(height: 30),
 
                 // Login Title
                 Text(
-                  'Login',
+                  'LOGIN',
                   style: TextStyle(
                     fontFamily: 'Roboto',
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 35,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
                 SizedBox(height: 10),
@@ -35,6 +35,7 @@ class Login extends StatelessWidget {
                   style: TextStyle(
                     fontFamily: 'Roboto',
                     fontWeight: FontWeight.w500,
+                    fontSize: 18,
                     color: Colors.grey[700],
                   ),
                   textAlign: TextAlign.center,
@@ -48,6 +49,7 @@ class Login extends StatelessWidget {
                     'Email:',
                     style: TextStyle(
                       fontFamily: 'Roboto',
+                      fontSize: 18,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -72,6 +74,7 @@ class Login extends StatelessWidget {
                     'Password:',
                     style: TextStyle(
                       fontFamily: 'Roboto',
+                      fontSize: 18,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -108,7 +111,7 @@ class Login extends StatelessWidget {
                       'Login',
                       style: TextStyle(
                         fontFamily: 'Roboto',
-                        fontSize: 18,
+                        fontSize: 20,
                         color: Colors.white,
                       ),
                     ),
@@ -124,6 +127,7 @@ class Login extends StatelessWidget {
                       'New User?',
                       style: TextStyle(
                         fontFamily: 'Roboto',
+                        fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -139,6 +143,7 @@ class Login extends StatelessWidget {
                         style: TextStyle(
                           fontFamily: 'Roboto',
                           fontWeight: FontWeight.w500,
+                          fontSize: 18,
                           color: Colors.indigo,
                           decoration: TextDecoration.underline,
                         ),

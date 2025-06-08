@@ -10,21 +10,21 @@ class Signup extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(32.0),
+          padding: const EdgeInsets.all(40.0),
           child: Center(
             child: Column(
               children: [
                 // Logo
-                Image.asset('assets/images/logo.png', height: 100),
+                Image.asset('assets/images/logo.png', height: 150),
                 SizedBox(height: 30),
 
                 // Signup Title
                 Text(
-                  'Signup',
+                  'SIGN UP',
                   style: TextStyle(
                     fontFamily: 'Roboto',
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 35,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
                 SizedBox(height: 30),
@@ -36,6 +36,7 @@ class Signup extends StatelessWidget {
                     'Username:',
                     style: TextStyle(
                       fontFamily: 'Roboto',
+                      fontSize: 18,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -60,6 +61,7 @@ class Signup extends StatelessWidget {
                     'Email:',
                     style: TextStyle(
                       fontFamily: 'Roboto',
+                      fontSize: 18,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -84,6 +86,7 @@ class Signup extends StatelessWidget {
                     'Password:',
                     style: TextStyle(
                       fontFamily: 'Roboto',
+                      fontSize: 18,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -120,7 +123,7 @@ class Signup extends StatelessWidget {
                       'Create Account',
                       style: TextStyle(
                         fontFamily: 'Roboto',
-                        fontSize: 18,
+                        fontSize: 20,
                         color: Colors.white,
                       ),
                     ),
@@ -136,6 +139,7 @@ class Signup extends StatelessWidget {
                       'Already have an account?',
                       style: TextStyle(
                         fontFamily: 'Roboto',
+                        fontSize: 18,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -150,6 +154,7 @@ class Signup extends StatelessWidget {
                         'Login',
                         style: TextStyle(
                           fontFamily: 'Roboto',
+                          fontSize: 18,
                           decoration: TextDecoration.underline,
                           color: Colors.indigo,
                         ),

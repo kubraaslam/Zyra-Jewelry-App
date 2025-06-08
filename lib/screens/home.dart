@@ -4,6 +4,7 @@ import 'package:jewelry_store/models/product_data.dart';
 import 'package:jewelry_store/screens/product_detail.dart';
 import 'package:jewelry_store/screens/products.dart';
 import 'package:jewelry_store/screens/cart.dart';
+import 'package:jewelry_store/screens/wishlist.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -14,8 +15,27 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final List<Product> cart = [];
+  final List<Product> cartItems = [];
 
+  int _selectedIndex = 0;
+
+  final List<Widget> _screens = [
+    // Index 0: Home
+    Home(), // We'll return this widget itself for Home
+    Wishlist(), // Create this screen separately
+    Products(),
+  ];
+
+  void _onItemTapped(int index) {
+    if (index == 0) {
+      // Already on Home, do nothing
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => _screens[index]),
+      );
+    }
+  }
   final List<Category> categories = [
     Category(title: 'RINGS', image: 'assets/images/rings.jpg'),
     Category(title: 'EARRINGS', image: 'assets/images/earrings.jpeg'),
@@ -68,11 +88,11 @@ class _HomeState extends State<Home> {
 
   void addToCart(Product product) {
     setState(() {
-      final index = cart.indexWhere((item) => item.title == product.title);
+      final index = cartItems.indexWhere((item) => item.title == product.title);
       if (index != -1) {
-        cart[index].quantity++;
+        cartItems[index].quantity++;
       } else {
-        cart.add(
+        cartItems.add(
           Product(
             title: product.title,
             type: product.type,
@@ -89,9 +109,9 @@ class _HomeState extends State<Home> {
       SnackBar(
         content: Text(
           '${product.title} added to cart!',
-          style: TextStyle(fontFamily: 'Roboto'),
+          style: TextStyle(fontSize: 16),
         ),
-        backgroundColor: const Color.fromARGB(255, 67, 68, 67),
+        backgroundColor: Colors.black,
         duration: Duration(seconds: 2),
       ),
     );
@@ -112,36 +132,47 @@ class _HomeState extends State<Home> {
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24,
-                  fontFamily: 'Roboto',
+                  fontFamily: 'Roboto'
                 ),
               ),
             ),
             ListTile(
               leading: Icon(Icons.home),
-              title: Text('Home', style: TextStyle(fontFamily: 'Roboto')),
+              title: Text('Home', style: TextStyle(fontFamily: 'Roboto', fontSize: 18)),
               onTap: () => Navigator.pop(context),
             ),
             ListTile(
-              leading: Icon(Icons.shopping_bag),
-              title: Text('Cart', style: TextStyle(fontFamily: 'Roboto')),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Cart(cartItems: cart),
-                  ),
-                );
-              },
-            ),
-            ListTile(
               leading: Icon(Icons.collections),
-              title: Text('Products', style: TextStyle(fontFamily: 'Roboto')),
+              title: Text('Products', style: TextStyle(fontFamily: 'Roboto', fontSize: 18)),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Products()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.shopping_bag),
+              title: Text('Cart', style: TextStyle(fontFamily: 'Roboto', fontSize: 18)),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Cart(cartItems: cartItems),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.favorite),
+              title: Text('Wishlist', style: TextStyle(fontFamily: 'Roboto', fontSize: 18)),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Wishlist()),
                 );
               },
             ),
@@ -159,7 +190,7 @@ class _HomeState extends State<Home> {
           },
         ),
         title: Column(
-          children: [Image.asset('assets/images/logo.png', height: 50)],
+          children: [Image.asset('assets/images/logo.png', height: 60)],
         ),
         centerTitle: true,
         actions: [
@@ -168,7 +199,7 @@ class _HomeState extends State<Home> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Cart(cartItems: cart)),
+                MaterialPageRoute(builder: (context) => Cart(cartItems: cartItems)),
               );
             },
           ),
@@ -192,7 +223,7 @@ class _HomeState extends State<Home> {
                 'Popular Categories',
                 style: TextStyle(
                   fontFamily: 'Roboto',
-                  fontSize: 18,
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -220,12 +251,12 @@ class _HomeState extends State<Home> {
                           children: [
                             Image.asset(
                               cat.image,
-                              height: 100,
+                              height: 150,
                               width: double.infinity,
                               fit: BoxFit.cover,
                             ),
                             Container(
-                              height: 100,
+                              height: 150,
                               decoration: BoxDecoration(
                                 color: Color.fromARGB(102, 67, 65, 65),
                               ),
@@ -239,9 +270,9 @@ class _HomeState extends State<Home> {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'Roboto',
-                                    fontWeight: FontWeight.w400,
+                                    fontWeight: FontWeight.w500,
                                     fontSize: 16,
-                                    letterSpacing: 1.5,
+                                    letterSpacing: 5.5,
                                   ),
                                 ),
                               ),
@@ -260,14 +291,14 @@ class _HomeState extends State<Home> {
                     'Trendy Collection',
                     style: TextStyle(
                       fontFamily: 'Roboto',
-                      fontSize: 18,
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 4),
+                  SizedBox(height: 2),
                   Text(
                     'Elevate your style with our curated modern pieces',
-                    style: TextStyle(fontFamily: 'Roboto', color: Colors.grey),
+                    style: TextStyle(fontFamily: 'Roboto', fontSize: 16, color: Color.fromARGB(255, 115, 112, 112)),
                   ),
                 ],
               ),
@@ -282,20 +313,20 @@ class _HomeState extends State<Home> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ProductDetail(item: item),
+                              builder: (context) => ProductDetail(item: item, cart: cartItems),
                             ),
                           );
                         },
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: Column(
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image.asset(
                                   item.image,
-                                  height: 100,
-                                  width: 100,
+                                  height: 150,
+                                  width: 150,
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -305,18 +336,18 @@ class _HomeState extends State<Home> {
                                 style: TextStyle(
                                   fontFamily: 'Roboto',
                                   fontStyle: FontStyle.italic,
-                                  fontSize: 12,
+                                  fontSize: 14,
                                   color: Colors.grey,
                                 ),
                               ),
                               SizedBox(
-                                width: 100,
+                                width: 125,
                                 child: Text(
                                   item.title,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontFamily: 'Roboto',
-                                    fontSize: 13,
+                                    fontSize: 16,
                                   ),
                                 ),
                               ),
@@ -325,26 +356,26 @@ class _HomeState extends State<Home> {
                                 'LKR ${item.price.toStringAsFixed(2)}',
                                 style: TextStyle(
                                   fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 13,
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 16,
                                 ),
                               ),
                               SizedBox(height: 5),
                               SizedBox(
-                                width: 100,
+                                width: 120,
                                 child: ElevatedButton(
                                   onPressed: () {
                                     addToCart(item);
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    padding: EdgeInsets.symmetric(vertical: 6),
+                                    padding: EdgeInsets.symmetric(vertical: 8),
                                     backgroundColor: Colors.black,
                                   ),
                                   child: Text(
                                     'Add to Cart',
                                     style: TextStyle(
                                       fontFamily: 'Roboto',
-                                      fontSize: 12,
+                                      fontSize: 14,
                                       color: Colors.white,
                                     ),
                                   ),
@@ -386,6 +417,31 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.grey,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+          _onItemTapped(index);
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite_border),
+            label: 'Wishlist',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.collections),
+            label: 'Products',
+          ),
+        ],
       ),
     );
   }
