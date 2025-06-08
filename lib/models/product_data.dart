@@ -69,55 +69,63 @@ final List<Product> allProducts = [
     type: 'Bracelet',
     price: 3250,
     image: 'assets/images/products/handcrafted-bracelet.jpeg',
-    description: '',
+    description:
+        'Timeless craftsmanship meets modern elegance in the Handcrafted Bracelet. Carefully made with attention to detail, each piece carries a unique charm that reflects the beauty of artisanal work. Its refined design makes it perfect for both everyday wear and special occasions, adding a personal, meaningful touch to your jewelry collection.',
   ),
   Product(
     title: 'Sharp Sword Earring',
     type: 'Earring',
     price: 1250,
     image: 'assets/images/products/sharp-sword-earring.jpeg',
-    description: 'Edgy and empowering, the Sharp Sword Earring is a bold piece that channels strength and style. Featuring a sleek, sword-inspired design, it adds a fierce accent to your look—perfect for those who love to stand out with confidence. Lightweight yet impactful, this earring is your go-to for adding attitude to any outfit.',
+    description:
+        'Edgy and empowering, the Sharp Sword Earring is a bold piece that channels strength and style. Featuring a sleek, sword-inspired design, it adds a fierce accent to your look—perfect for those who love to stand out with confidence. Lightweight yet impactful, this earring is your go-to for adding attitude to any outfit.',
   ),
   Product(
     title: 'Twisted Ring',
     type: 'Ring',
     price: 850,
     image: 'assets/images/products/twisted-ring.jpeg',
-    description: 'Simple yet striking, the Twisted Ring features an elegant spiral design that wraps gracefully around your finger. Its minimal form and smooth curves make it a versatile accessory—perfect for stacking or wearing solo. Lightweight and comfortable, it adds a touch of effortless charm to your everyday style.',
+    description:
+        'Simple yet striking, the Twisted Ring features an elegant spiral design that wraps gracefully around your finger. Its minimal form and smooth curves make it a versatile accessory—perfect for stacking or wearing solo. Lightweight and comfortable, it adds a touch of effortless charm to your everyday style.',
   ),
   Product(
     title: 'Hollow Heart Hoop Earring',
     type: 'Earring',
     price: 1870,
     image: 'assets/images/products/hollow-heart-hoop-earrings.jpeg',
-    description: "Playful with a touch of romance, the Hollow Heart Hoop Earring brings a sweet twist to the classic hoop. Shaped in an open-heart silhouette, this piece blends charm and style effortlessly—perfect for adding a flirty flair to both casual and dressy looks. Lightweight and eye-catching, it's love at first wear.",
+    description:
+        "Playful with a touch of romance, the Hollow Heart Hoop Earring brings a sweet twist to the classic hoop. Shaped in an open-heart silhouette, this piece blends charm and style effortlessly—perfect for adding a flirty flair to both casual and dressy looks. Lightweight and eye-catching, it's love at first wear.",
   ),
   Product(
     title: 'Spiral Swirl Necklace',
     type: 'Necklace',
     price: 2070,
     image: 'assets/images/products/spiral-swirl-necklace.jpeg',
-    description: 'Artistic and elegant, the Spiral Swirl Necklace features a graceful, flowing design that captures movement and creativity. Its sleek curves create a modern yet timeless look, making it a versatile accessory for any occasion. Whether layered or worn solo, this piece adds a refined statement to your neckline.',
+    description:
+        'Artistic and elegant, the Spiral Swirl Necklace features a graceful, flowing design that captures movement and creativity. Its sleek curves create a modern yet timeless look, making it a versatile accessory for any occasion. Whether layered or worn solo, this piece adds a refined statement to your neckline.',
   ),
   Product(
     title: 'Wave Ring',
     type: 'Ring',
     price: 1050,
     image: 'assets/images/products/wave-ring.jpeg',
-    description: 'Inspired by the rhythm of the ocean, the Wave Ring features a smooth, flowing design that wraps around your finger with effortless grace. Its minimal yet dynamic form makes it a standout piece for everyday wear, symbolizing fluidity, strength, and calm.',
+    description:
+        'Inspired by the rhythm of the ocean, the Wave Ring features a smooth, flowing design that wraps around your finger with effortless grace. Its minimal yet dynamic form makes it a standout piece for everyday wear, symbolizing fluidity, strength, and calm.',
   ),
   Product(
     title: 'Knot Bracelet',
     type: 'Bracelet',
     price: 3870,
     image: 'assets/images/products/pearl-flower-bracelet.png',
-    description: 'Symbolizing unity and strength, the Knot Bracelet is a beautifully crafted piece that combines simplicity with meaning. Its intertwined design represents lasting bonds and connection, making it a thoughtful accessory for yourself or a loved one. Perfectly balanced between elegance and everyday wearability, this bracelet adds a subtle statement to any outfit.',
+    description:
+        'Symbolizing unity and strength, the Knot Bracelet is a beautifully crafted piece that combines simplicity with meaning. Its intertwined design represents lasting bonds and connection, making it a thoughtful accessory for yourself or a loved one. Perfectly balanced between elegance and everyday wearability, this bracelet adds a subtle statement to any outfit.',
   ),
   Product(
     title: 'Sun Pendant Necklace',
     type: 'Necklace',
     price: 1070,
     image: 'assets/images/products/sun-necklace.jpeg',
-    description: "Brighten your look with the Sun Pendant Necklace, featuring a radiant sun motif that symbolizes warmth, energy, and positivity. This delicate necklace adds a cheerful glow to any outfit, making it perfect for everyday wear or layering with other pieces. Lightweight and versatile, it's a sunny reminder to shine wherever you go.",
+    description:
+        "Brighten your look with the Sun Pendant Necklace, featuring a radiant sun motif that symbolizes warmth, energy, and positivity. This delicate necklace adds a cheerful glow to any outfit, making it perfect for everyday wear or layering with other pieces. Lightweight and versatile, it's a sunny reminder to shine wherever you go.",
   ),
 ];
