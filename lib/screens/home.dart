@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jewelry_store/models/bottom_navbar.dart';
 import 'package:jewelry_store/models/category.dart';
 import 'package:jewelry_store/models/product_data.dart';
 import 'package:jewelry_store/screens/product_detail.dart';
@@ -17,25 +18,9 @@ class _HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<Product> cartItems = [];
 
-  int _selectedIndex = 0;
+  final int _selectedIndex = 0;
 
-  final List<Widget> _screens = [
-    // Index 0: Home
-    Home(), // We'll return this widget itself for Home
-    Wishlist(), // Create this screen separately
-    Products(),
-  ];
 
-  void _onItemTapped(int index) {
-    if (index == 0) {
-      // Already on Home, do nothing
-    } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => _screens[index]),
-      );
-    }
-  }
   final List<Category> categories = [
     Category(title: 'RINGS', image: 'assets/images/rings.jpg'),
     Category(title: 'EARRINGS', image: 'assets/images/earrings.jpeg'),
@@ -237,7 +222,7 @@ class _HomeState extends State<Home> {
                           context,
                           MaterialPageRoute(
                             builder:
-                                (context) => Products(scrollToType: cat.title),
+                                (context) => Products(),
                           ),
                         );
                       },
@@ -418,31 +403,7 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.grey,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-          _onItemTapped(index);
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_border),
-            label: 'Wishlist',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.collections),
-            label: 'Products',
-          ),
-        ],
-      ),
+      bottomNavigationBar: BottomNavBar(currentIndex: _selectedIndex),
     );
   }
 }

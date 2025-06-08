@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:jewelry_store/models/bottom_navbar.dart';
 import 'package:jewelry_store/models/product_data.dart';
 import 'package:jewelry_store/screens/cart.dart';
 import 'package:jewelry_store/screens/home.dart';
+import 'package:jewelry_store/screens/product_detail.dart';
+import 'package:jewelry_store/screens/wishlist.dart';
 
 class Products extends StatefulWidget {
-  final String? scrollToType;
-  const Products({super.key, this.scrollToType});
+  const Products({super.key});
 
   @override
   State<Products> createState() => _ProductsState();
@@ -13,25 +15,26 @@ class Products extends StatefulWidget {
 
 class _ProductsState extends State<Products> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final List<Product> cart = [];
-  final ScrollController _scrollController = ScrollController();
+  final List<Product> cartItems = [];
   final Map<String, GlobalKey> _sectionKeys = {};
 
   void addToCart(Product product) {
     setState(() {
-      final index = cart.indexWhere((item) => item.title == product.title);
+      final index = cartItems.indexWhere((item) => item.title == product.title);
 
       if (index != -1) {
-        cart[index].quantity++;
+        cartItems[index].quantity++;
       } else {
-        cart.add(Product(
-          title: product.title,
-          type: product.type,
-          price: product.price,
-          image: product.image,
-          description: product.description,
-          quantity: 1,
-        ));
+        cartItems.add(
+          Product(
+            title: product.title,
+            type: product.type,
+            price: product.price,
+            image: product.image,
+            description: product.description,
+            quantity: 1,
+          ),
+        );
       }
     });
 
@@ -39,31 +42,12 @@ class _ProductsState extends State<Products> {
       SnackBar(
         content: Text(
           '${product.title} added to cart!',
-          style: TextStyle(fontFamily: 'Roboto'),
+          style: TextStyle(fontSize: 16),
         ),
-        backgroundColor: const Color.fromARGB(255, 67, 68, 67),
+        backgroundColor: Colors.black,
         duration: Duration(seconds: 2),
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // Delay scroll until after build completes
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (widget.scrollToType != null &&
-          _sectionKeys.containsKey(widget.scrollToType)) {
-        final context = _sectionKeys[widget.scrollToType]!.currentContext;
-        if (context != null) {
-          Scrollable.ensureVisible(
-            context,
-            duration: Duration(milliseconds: 500),
-            curve: Curves.easeInOut,
-          );
-        }
-      }
-    });
   }
 
   @override
@@ -92,27 +76,61 @@ class _ProductsState extends State<Products> {
             ),
             ListTile(
               leading: Icon(Icons.home),
-              title: Text('Home', style: TextStyle(fontFamily: 'Roboto')),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.shopping_bag),
-              title: Text('Cart', style: TextStyle(fontFamily: 'Roboto')),
+              title: Text(
+                'Home',
+                style: TextStyle(fontFamily: 'Roboto', fontSize: 18),
+              ),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Cart(cartItems: cart)),
+                  MaterialPageRoute(builder: (context) => Home()),
                 );
               },
             ),
             ListTile(
               leading: Icon(Icons.collections),
-              title: Text('Products', style: TextStyle(fontFamily: 'Roboto')),
-              onTap: () => Navigator.pop(context),
+              title: Text(
+                'Products',
+                style: TextStyle(fontFamily: 'Roboto', fontSize: 18),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Products()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.shopping_bag),
+              title: Text(
+                'Cart',
+                style: TextStyle(fontFamily: 'Roboto', fontSize: 18),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Cart(cartItems: cartItems),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.favorite),
+              title: Text(
+                'Wishlist',
+                style: TextStyle(fontFamily: 'Roboto', fontSize: 18),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Wishlist()),
+                );
+              },
             ),
           ],
         ),
@@ -123,19 +141,25 @@ class _ProductsState extends State<Products> {
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.menu_rounded, color: Colors.black),
-          onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+          onPressed: () {
+            _scaffoldKey.currentState?.openDrawer();
+          },
         ),
         title: Column(
-          children: [Image.asset('assets/images/logo.png', height: 50)],
+          children: [Image.asset('assets/images/logo.png', height: 60)],
         ),
         centerTitle: true,
         actions: [
           IconButton(
             icon: Icon(Icons.shopping_bag_outlined, color: Colors.black),
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => Cart(cartItems: cart)),
-            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Cart(cartItems: cartItems),
+                ),
+              );
+            },
           ),
           SizedBox(width: 10),
           Icon(Icons.account_circle, color: Colors.black),
@@ -147,7 +171,6 @@ class _ProductsState extends State<Products> {
           children: [
             Expanded(
               child: ListView(
-                controller: _scrollController,
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 children: [
                   ...groupedProducts.entries.map((entry) {
@@ -161,86 +184,104 @@ class _ProductsState extends State<Products> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(height: 30),
-                        Text(
-                          '${type}s',
-                          style: TextStyle(
-                            fontFamily: 'Roboto',
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
+                        Center(
+                          child: Text(
+                            '${type}s',
+                            style: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 15),
                         GridView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: products.length,
-                          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 250,
-                            mainAxisSpacing: 10,
-                            crossAxisSpacing: 10,
-                            childAspectRatio: 0.7,
-                          ),
+                          gridDelegate:
+                              SliverGridDelegateWithMaxCrossAxisExtent(
+                                maxCrossAxisExtent: 350,
+                                mainAxisSpacing: 10,
+                                crossAxisSpacing: 10,
+                                childAspectRatio: 0.6,
+                              ),
                           itemBuilder: (context, index) {
                             final item = products[index];
-                            return Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              elevation: 2,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(8),
-                                      child: Image.asset(
-                                        item.image,
-                                        width: double.infinity,
-                                        height: 100,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    SizedBox(height: 8),
-                                    Text(
-                                      item.title,
-                                      style: TextStyle(
-                                        fontFamily: 'Roboto',
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 14,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    SizedBox(height: 4),
-                                    Text(
-                                      'LKR ${item.price.toStringAsFixed(2)}',
-                                      style: TextStyle(
-                                        fontFamily: 'Roboto',
-                                        color: Colors.grey[800],
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                    SizedBox(height: 8),
-                                    SizedBox(
-                                      width: 100,
-                                      height: 32,
-                                      child: ElevatedButton(
-                                        onPressed: () => addToCart(item),
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.black,
-                                          padding: EdgeInsets.zero,
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder:
+                                        (context) => ProductDetail(
+                                          item: item,
+                                          cart: cartItems,
                                         ),
-                                        child: Text(
-                                          'Add to Cart',
-                                          style: TextStyle(
-                                            fontFamily: 'Roboto',
-                                            color: Colors.white,
-                                            fontSize: 12,
+                                  ),
+                                );
+                              },
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                elevation: 2,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: Image.asset(
+                                          item.image,
+                                          width: double.infinity,
+                                          height: 150,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(
+                                        item.title,
+                                        style: TextStyle(
+                                          fontFamily: 'Roboto',
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      SizedBox(height: 4),
+                                      Text(
+                                        'LKR ${item.price.toStringAsFixed(2)}',
+                                        style: TextStyle(
+                                          fontFamily: 'Roboto',
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      SizedBox(height: 8),
+                                      SizedBox(
+                                        width: 100,
+                                        height: 36,
+                                        child: ElevatedButton(
+                                          onPressed: () => addToCart(item),
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.black,
+                                            padding: EdgeInsets.zero,
+                                          ),
+                                          child: Text(
+                                            'Add to Cart',
+                                            style: TextStyle(
+                                              fontFamily: 'Roboto',
+                                              color: Colors.white,
+                                              fontSize: 14,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
@@ -277,6 +318,7 @@ class _ProductsState extends State<Products> {
           ],
         ),
       ),
+      bottomNavigationBar: BottomNavBar(currentIndex: 2),
     );
   }
 }
