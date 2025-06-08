@@ -112,7 +112,7 @@ class Login extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontFamily: 'Roboto',
                         fontSize: 20,
-                        backgroundColor: Theme.of(context).primaryColor,
+                        color:Colors.white
                       ),
                     ),
                   ),
@@ -140,7 +140,9 @@ class Login extends StatelessWidget {
                       },
                       child: Text(
                         'Sign up',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        style: Theme.of(
+                          context,
+                        ).textTheme.titleMedium?.copyWith(
                           fontFamily: 'Roboto',
                           fontWeight: FontWeight.w500,
                           fontSize: 18,

@@ -5,7 +5,6 @@ import 'package:jewelry_store/models/product_data.dart';
 import 'package:jewelry_store/screens/product_detail.dart';
 import 'package:jewelry_store/screens/products.dart';
 import 'package:jewelry_store/screens/cart.dart';
-import 'package:jewelry_store/screens/user_account.dart';
 import 'package:jewelry_store/screens/wishlist.dart';
 
 class Home extends StatefulWidget {
@@ -221,25 +220,6 @@ class _HomeState extends State<Home> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => Cart(cartItems: cartItems),
-                ),
-              );
-            },
-          ),
-          SizedBox(width: 10),
-          IconButton(
-            icon: Icon(
-              Icons.account_circle,
-              color: Theme.of(context).iconTheme.color,
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder:
-                      (context) => UserAccount(
-                        userName: 'Kubra',
-                        userEmail: 'kubra@example.com',
-                      ),
                 ),
               );
             },

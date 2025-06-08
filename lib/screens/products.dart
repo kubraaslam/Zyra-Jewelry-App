@@ -186,8 +186,6 @@ class _ProductsState extends State<Products> {
             },
           ),
           SizedBox(width: 10),
-          Icon(Icons.account_circle, color: Theme.of(context).iconTheme.color),
-          SizedBox(width: 10),
         ],
       ),
       body: SafeArea(

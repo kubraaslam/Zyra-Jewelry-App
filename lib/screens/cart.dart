@@ -286,9 +286,7 @@ class _CartState extends State<Cart> {
           Icon(
             Icons.shopping_bag_outlined,
             color: Theme.of(context).iconTheme.color,
-          ),
-          SizedBox(width: 10),
-          Icon(Icons.account_circle, color: Theme.of(context).iconTheme.color),
+          ),         
           SizedBox(width: 10),
         ],
       ),

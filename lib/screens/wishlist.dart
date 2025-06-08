@@ -127,9 +127,7 @@ class _WishlistState extends State<Wishlist> {
                 ),
               );
             },
-          ),
-          SizedBox(width: 10),
-          Icon(Icons.account_circle, color: Theme.of(context).iconTheme.color),
+          ),          
           SizedBox(width: 10),
         ],
       ),
