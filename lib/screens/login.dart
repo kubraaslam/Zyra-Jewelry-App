@@ -2,8 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:jewelry_store/screens/home.dart';
 import 'package:jewelry_store/screens/signup.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   const Login({super.key});
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  bool _obscurePassword = true;
+
+  void _login() {
+    if (_formKey.currentState!.validate()) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const Home()),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,148 +33,150 @@ class Login extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(32.0),
           child: Center(
-            child: Column(
-              children: [
-                SizedBox(height: 30), // Top spacing
-                // Logo
-                Image.asset('assets/images/logo.png', height: 150),
-                SizedBox(height: 30),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  const SizedBox(height: 30), // Top spacing
 
-                // Login Title
-                Text(
-                  'LOGIN',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontFamily: 'Roboto',
-                    fontSize: 35,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  'Welcome back! Please login to your account',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18,
-                    color: Colors.grey[700],
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 30),
+                  // Logo
+                  Image.asset('assets/images/logo.png', height: 150),
+                  const SizedBox(height: 30),
 
-                // Email Input
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Email:',
+                  // Login Title
+                  Text(
+                    'LOGIN',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontFamily: 'Roboto',
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                    ),
+                          fontSize: 35,
+                          fontWeight: FontWeight.w900,
+                        ),
                   ),
-                ),
-                SizedBox(height: 5),
-                TextField(
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.grey[200],
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-
-                // Password Input
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Password:',
+                  const SizedBox(height: 10),
+                  Text(
+                    'Welcome back! Please login to your account',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontFamily: 'Roboto',
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 5),
-                TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.grey[200],
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 30),
-
-                // Login Button
-                SizedBox(
-                  width: 200,
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColor,
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Home()),
-                      );
-                    },
-                    child: Text(
-                      'Login',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontFamily: 'Roboto',
-                        fontSize: 20,
-                        color:Colors.white
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-
-                // Sign up Link
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'New User?',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontFamily: 'Roboto',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Signup()),
-                        );
-                      },
-                      child: Text(
-                        'Sign up',
-                        style: Theme.of(
-                          context,
-                        ).textTheme.titleMedium?.copyWith(
-                          fontFamily: 'Roboto',
                           fontWeight: FontWeight.w500,
                           fontSize: 18,
-                          color: Colors.indigo,
-                          decoration: TextDecoration.underline,
+                          color: Colors.grey[700],
                         ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 30),
+
+                  // Email Input
+                  TextFormField(
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                      filled: true,
+                      fillColor: Colors.grey[200],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
                       ),
                     ),
-                  ],
-                ),
-                SizedBox(height: 40), // Bottom padding
-              ],
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Please enter your email";
+                      } else if (!value.contains('@')) {
+                        return "Enter a valid email";
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Password Input
+                  TextFormField(
+                    controller: _passwordController,
+                    obscureText: _obscurePassword,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      filled: true,
+                      fillColor: Colors.grey[200],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide.none,
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                          color: Colors.grey[700],
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
+                        },
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Please enter your password";
+                      } else if (value.length < 6) {
+                        return "Password must be at least 6 characters";
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 30),
+
+                  // Login Button
+                  SizedBox(
+                    width: 200,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).primaryColor,
+                      ),
+                      onPressed: _login,
+                      child: Text(
+                        'Login',
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Sign up Link
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'New User?',
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const Signup()),
+                          );
+                        },
+                        child: Text(
+                          'Sign up',
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                                color: Colors.indigo,
+                                decoration: TextDecoration.underline,
+                              ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 40), // Bottom padding
+                ],
+              ),
             ),
           ),
         ),
