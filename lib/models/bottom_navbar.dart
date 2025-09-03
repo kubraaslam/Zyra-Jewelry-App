@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jewelry_store/models/product_data.dart';
+import 'package:jewelry_store/screens/cart.dart';
 import 'package:jewelry_store/screens/home.dart';
 import 'package:jewelry_store/screens/products.dart';
 import 'package:jewelry_store/screens/wishlist.dart';
@@ -28,8 +29,13 @@ class BottomNavBar extends StatelessWidget {
         nextScreen = Wishlist(wishlist: wishlist, cart: cart);
         break;
       case 2:
-      default:
         nextScreen = Products();
+        break;
+      case 3:
+        nextScreen = Cart(cartItems: cart);
+        break;
+      default:
+        nextScreen = Home();
     }
 
     Navigator.pushReplacement(
@@ -41,24 +47,16 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      currentIndex: currentIndex >= 0 && currentIndex <= 2 ? currentIndex : 0,
+      currentIndex: currentIndex >= 0 && currentIndex <= 3 ? currentIndex : 0,
       selectedItemColor: Theme.of(context).colorScheme.primary,
       unselectedItemColor: Colors.grey,
       onTap: (index) => _onItemTapped(context, index),
       items: const [
         BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.favorite_border),
-          label: 'Wishlist',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.collections),
-          label: 'Products',
-        ),
+        BottomNavigationBarItem(icon: Icon(Icons.favorite_border), label: 'Wishlist'),
+        BottomNavigationBarItem(icon: Icon(Icons.collections), label: 'Products'),
+        BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_outlined), label: 'Cart'),
       ],
-      // Hide selection effect if index is invalid
-      selectedIconTheme:
-          currentIndex == -1 ? IconThemeData(opacity: 0.5) : null,
     );
   }
 }

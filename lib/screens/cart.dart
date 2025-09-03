@@ -283,11 +283,13 @@ class _CartState extends State<Cart> {
         title: Image.asset('assets/images/logo.png', height: 50),
         centerTitle: true,
         actions: [
-          Icon(
-            Icons.shopping_bag_outlined,
-            color: Theme.of(context).iconTheme.color,
-          ),         
-          SizedBox(width: 10),
+          IconButton(
+            icon: Icon(Icons.logout, color: Theme.of(context).iconTheme.color),
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, '/login');
+            },
+          ),
+          const SizedBox(width: 10),
         ],
       ),
       body:
@@ -440,7 +442,7 @@ class _CartState extends State<Cart> {
                 ),
               ),
       bottomNavigationBar: BottomNavBar(
-        currentIndex: -1,
+        currentIndex: 3,
         cart: cartItems,
         wishlist: wishlistItems,
       ),

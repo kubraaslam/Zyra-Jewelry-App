@@ -172,20 +172,12 @@ class _ProductsState extends State<Products> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(
-              Icons.shopping_bag_outlined,
-              color: Theme.of(context).iconTheme.color,
-            ),
+            icon: Icon(Icons.logout, color: Theme.of(context).iconTheme.color),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Cart(cartItems: cartItems),
-                ),
-              );
+              Navigator.pushReplacementNamed(context, '/login');
             },
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
         ],
       ),
       body: SafeArea(

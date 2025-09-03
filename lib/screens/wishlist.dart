@@ -3,7 +3,7 @@ import 'package:jewelry_store/models/bottom_navbar.dart';
 import 'package:jewelry_store/models/product_data.dart';
 import 'package:jewelry_store/screens/cart.dart';
 import 'package:jewelry_store/screens/product_detail.dart';
-import 'package:jewelry_store/screens/products.dart'; // adjust path if needed
+import 'package:jewelry_store/screens/products.dart';
 
 class Wishlist extends StatefulWidget {
   final List<Product> wishlist;
@@ -55,7 +55,10 @@ class _WishlistState extends State<Wishlist> {
               leading: Icon(Icons.home),
               title: Text(
                 'Home',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontFamily: 'Roboto', fontSize: 18),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                ),
               ),
               onTap: () => Navigator.pop(context),
             ),
@@ -63,7 +66,10 @@ class _WishlistState extends State<Wishlist> {
               leading: Icon(Icons.collections),
               title: Text(
                 'Products',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontFamily: 'Roboto', fontSize: 18),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                ),
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -77,7 +83,10 @@ class _WishlistState extends State<Wishlist> {
               leading: Icon(Icons.shopping_bag),
               title: Text(
                 'Cart',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontFamily: 'Roboto', fontSize: 18),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                ),
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -93,7 +102,10 @@ class _WishlistState extends State<Wishlist> {
               leading: Icon(Icons.favorite),
               title: Text(
                 'Wishlist',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontFamily: 'Roboto', fontSize: 18),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                ),
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -107,7 +119,10 @@ class _WishlistState extends State<Wishlist> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.menu_rounded, color: Theme.of(context).iconTheme.color),
+          icon: Icon(
+            Icons.menu_rounded,
+            color: Theme.of(context).iconTheme.color,
+          ),
           onPressed: () {
             _scaffoldKey.currentState?.openDrawer();
           },
@@ -118,17 +133,12 @@ class _WishlistState extends State<Wishlist> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.shopping_bag_outlined, color: Theme.of(context).iconTheme.color),
+            icon: Icon(Icons.logout, color: Theme.of(context).iconTheme.color),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Cart(cartItems: widget.cart),
-                ),
-              );
+              Navigator.pushReplacementNamed(context, '/login');
             },
-          ),          
-          SizedBox(width: 10),
+          ),
+          const SizedBox(width: 10),
         ],
       ),
       body:
@@ -136,7 +146,10 @@ class _WishlistState extends State<Wishlist> {
               ? Center(
                 child: Text(
                   'No items in your wishlist.',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 22, fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               )
               : ListView.builder(
@@ -153,7 +166,8 @@ class _WishlistState extends State<Wishlist> {
                       ),
                       title: Text(
                         product.title,
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       subtitle: Text('LKR ${product.price.toStringAsFixed(2)}'),
                       trailing: IconButton(

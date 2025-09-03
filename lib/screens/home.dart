@@ -93,7 +93,9 @@ class _HomeState extends State<Home> {
       SnackBar(
         content: Text(
           '${product.title} added to cart!',
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(fontSize: 16, color: Colors.white),
+          style: Theme.of(
+            context,
+          ).textTheme.labelLarge?.copyWith(fontSize: 16, color: Colors.white),
         ),
         backgroundColor: Theme.of(context).primaryColor,
         duration: Duration(seconds: 2),
@@ -211,20 +213,12 @@ class _HomeState extends State<Home> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(
-              Icons.shopping_bag_outlined,
-              color: Theme.of(context).iconTheme.color,
-            ),
+            icon: Icon(Icons.logout, color: Theme.of(context).iconTheme.color),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Cart(cartItems: cartItems),
-                ),
-              );
+              Navigator.pushReplacementNamed(context, '/login');
             },
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
         ],
       ),
       body: SingleChildScrollView(
@@ -409,9 +403,9 @@ class _HomeState extends State<Home> {
                                     padding: EdgeInsets.symmetric(vertical: 8),
                                     backgroundColor:
                                         Theme.of(context).brightness ==
-                                                  Brightness.light
-                                              ? Colors.black
-                                              : Colors.white,
+                                                Brightness.light
+                                            ? Colors.black
+                                            : Colors.white,
                                   ),
                                   child: Text(
                                     'Add to Cart',
