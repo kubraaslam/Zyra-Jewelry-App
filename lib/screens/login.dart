@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jewelry_store/screens/home.dart';
 import 'package:jewelry_store/screens/signup.dart';
+import 'package:jewelry_store/controllers/auth_controller.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -15,13 +16,48 @@ class _LoginState extends State<Login> {
   final TextEditingController _passwordController = TextEditingController();
 
   bool _obscurePassword = true;
+  bool _isLoading = false;
 
-  void _login() {
+  final AuthController _authController = AuthController();
+
+  Future<void> _login() async {
     if (_formKey.currentState!.validate()) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const Home()),
-      );
+      setState(() => _isLoading = true);
+
+      try {
+        final token = await _authController.login(
+          _emailController.text.trim(),
+          _passwordController.text.trim(),
+        );
+
+        setState(() => _isLoading = false);
+
+        // ignore: unnecessary_null_comparison
+        if (token != null) {
+          if (!mounted) return;
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const Home()),
+          );
+        } else {
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Invalid email or password"),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      } catch (e) {
+        setState(() => _isLoading = false);
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Error: Invalid email or password"),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
@@ -37,13 +73,13 @@ class _LoginState extends State<Login> {
               key: _formKey,
               child: Column(
                 children: [
-                  const SizedBox(height: 30), // Top spacing
+                  const SizedBox(height: 30),
 
                   // Logo
                   Image.asset('assets/images/logo.png', height: 150),
                   const SizedBox(height: 30),
 
-                  // Login Title
+                  // Title
                   Text(
                     'LOGIN',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -63,7 +99,7 @@ class _LoginState extends State<Login> {
                   ),
                   const SizedBox(height: 30),
 
-                  // Email Input
+                  // Email
                   TextFormField(
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
@@ -87,7 +123,7 @@ class _LoginState extends State<Login> {
                   ),
                   const SizedBox(height: 20),
 
-                  // Password Input
+                  // Password
                   TextFormField(
                     controller: _passwordController,
                     obscureText: _obscurePassword,
@@ -132,19 +168,24 @@ class _LoginState extends State<Login> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).primaryColor,
                       ),
-                      onPressed: _login,
-                      child: Text(
-                        'Login',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              fontSize: 20,
-                              color: Colors.white,
+                      onPressed: _isLoading ? null : _login,
+                      child: _isLoading
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : Text(
+                              'Login',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                  ),
                             ),
-                      ),
                     ),
                   ),
                   const SizedBox(height: 20),
 
-                  // Sign up Link
+                  // Signup link
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -159,7 +200,8 @@ class _LoginState extends State<Login> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const Signup()),
+                            MaterialPageRoute(
+                                builder: (context) => const Signup()),
                           );
                         },
                         child: Text(
@@ -174,7 +216,7 @@ class _LoginState extends State<Login> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 40), // Bottom padding
+                  const SizedBox(height: 40),
                 ],
               ),
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jewelry_store/models/bottom_navbar.dart';
 import 'package:jewelry_store/models/category.dart';
 import 'package:jewelry_store/models/product_data.dart';
+import 'package:jewelry_store/screens/login.dart';
 import 'package:jewelry_store/screens/product_detail.dart';
 import 'package:jewelry_store/screens/products.dart';
 import 'package:jewelry_store/screens/cart.dart';
@@ -215,7 +216,10 @@ class _HomeState extends State<Home> {
           IconButton(
             icon: Icon(Icons.logout, color: Theme.of(context).iconTheme.color),
             onPressed: () {
-              Navigator.pushReplacementNamed(context, '/login');
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const Login()),
+              );
             },
           ),
           const SizedBox(width: 10),

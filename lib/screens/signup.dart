@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jewelry_store/screens/login.dart';
+import 'package:jewelry_store/controllers/auth_controller.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -13,24 +14,38 @@ class _SignupState extends State<Signup> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
 
   bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
+  bool _isLoading = false;
 
-  void _createAccount() {
-    if (_formKey.currentState!.validate()) {
-      // Show success message
+  final AuthController _authController = AuthController();
+
+  Future<void> _createAccount() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() => _isLoading = true);
+
+    final result = await _authController.register(
+      _usernameController.text.trim(),
+      _emailController.text.trim(),
+      _passwordController.text.trim(),
+      _confirmPasswordController.text.trim(),
+    );
+
+    setState(() => _isLoading = false);
+
+    if (result != null && result["token"] != null) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text(
-            'Account created successfully!',
-            style: TextStyle(fontSize: 18),
-          ),
+        const SnackBar(
+          content: Text("Account created successfully!"),
           backgroundColor: Colors.green,
-          duration: const Duration(seconds: 2),
+          duration: Duration(seconds: 2),
         ),
       );
 
-      // Redirect to Login page after a short delay
       Future.delayed(const Duration(seconds: 2), () {
         if (!mounted) return;
         Navigator.pushReplacement(
@@ -38,6 +53,15 @@ class _SignupState extends State<Signup> {
           MaterialPageRoute(builder: (context) => const Login()),
         );
       });
+    } else {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Signup failed. Please check your inputs."),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 2),
+        ),
+      );
     }
   }
 
@@ -61,13 +85,13 @@ class _SignupState extends State<Signup> {
                   Text(
                     'SIGN UP',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontSize: 35,
-                      fontWeight: FontWeight.w900,
-                    ),
+                          fontSize: 35,
+                          fontWeight: FontWeight.w900,
+                        ),
                   ),
                   const SizedBox(height: 30),
 
-                  // Username Input
+                  // Username
                   TextFormField(
                     controller: _usernameController,
                     decoration: InputDecoration(
@@ -80,15 +104,13 @@ class _SignupState extends State<Signup> {
                       ),
                     ),
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Please enter your username";
-                      }
+                      if (value == null || value.isEmpty) return "Please enter your username";
                       return null;
                     },
                   ),
                   const SizedBox(height: 20),
 
-                  // Email Input
+                  // Email
                   TextFormField(
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
@@ -102,17 +124,14 @@ class _SignupState extends State<Signup> {
                       ),
                     ),
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Please enter your email";
-                      } else if (!value.contains('@')) {
-                        return "Enter a valid email";
-                      }
+                      if (value == null || value.isEmpty) return "Please enter your email";
+                      if (!value.contains('@')) return "Enter a valid email";
                       return null;
                     },
                   ),
                   const SizedBox(height: 20),
 
-                  // Password Input
+                  // Password
                   TextFormField(
                     controller: _passwordController,
                     obscureText: _obscurePassword,
@@ -126,24 +145,43 @@ class _SignupState extends State<Signup> {
                       ),
                       suffixIcon: IconButton(
                         icon: Icon(
-                          _obscurePassword
-                              ? Icons.visibility_off
-                              : Icons.visibility,
+                          _obscurePassword ? Icons.visibility_off : Icons.visibility,
                           color: Colors.grey[700],
                         ),
-                        onPressed: () {
-                          setState(() {
-                            _obscurePassword = !_obscurePassword;
-                          });
-                        },
+                        onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
                       ),
                     ),
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Please enter your password";
-                      } else if (value.length < 6) {
-                        return "Password must be at least 6 characters";
-                      }
+                      if (value == null || value.isEmpty) return "Please enter your password";
+                      if (value.length < 6) return "Password must be at least 6 characters";
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Confirm Password
+                  TextFormField(
+                    controller: _confirmPasswordController,
+                    obscureText: _obscureConfirmPassword,
+                    decoration: InputDecoration(
+                      labelText: 'Confirm Password',
+                      filled: true,
+                      fillColor: Colors.grey[200],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                          color: Colors.grey[700],
+                        ),
+                        onPressed: () => setState(() => _obscureConfirmPassword = !_obscureConfirmPassword),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) return "Please confirm your password";
+                      if (value != _passwordController.text) return "Passwords do not match";
                       return null;
                     },
                   ),
@@ -157,12 +195,16 @@ class _SignupState extends State<Signup> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).primaryColor,
                       ),
-                      onPressed: _createAccount,
-                      child: Text(
-                        'Create Account',
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(fontSize: 20, color: Colors.white),
-                      ),
+                      onPressed: _isLoading ? null : _createAccount,
+                      child: _isLoading
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : Text(
+                              'Create Account',
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                  ),
+                            ),
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -173,31 +215,23 @@ class _SignupState extends State<Signup> {
                     children: [
                       Text(
                         'Already have an account?',
-                        style: Theme.of(
-                          context,
-                        ).textTheme.titleMedium?.copyWith(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
                       ),
                       TextButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Login(),
-                            ),
-                          );
-                        },
+                        onPressed: () => Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Login()),
+                        ),
                         child: Text(
                           'Login',
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleMedium?.copyWith(
-                            fontSize: 18,
-                            decoration: TextDecoration.underline,
-                            color: Colors.indigo,
-                          ),
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                fontSize: 18,
+                                decoration: TextDecoration.underline,
+                                color: Colors.indigo,
+                              ),
                         ),
                       ),
                     ],
