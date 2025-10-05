@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:jewelry_store/models/bottom_navbar.dart';
 import 'package:jewelry_store/models/category.dart';
@@ -7,6 +9,7 @@ import 'package:jewelry_store/screens/product_detail.dart';
 import 'package:jewelry_store/screens/products.dart';
 import 'package:jewelry_store/screens/cart.dart';
 import 'package:jewelry_store/screens/wishlist.dart';
+import 'package:jewelry_store/services/api_service.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -28,48 +31,31 @@ class _HomeState extends State<Home> {
     Category(title: 'BRACELETS', image: 'assets/images/bracelets.jpeg'),
   ];
 
-  final List<Product> trendyItems = [
-    Product(
-      title: 'Tied Knot Bracelet',
-      type: 'Bracelet',
-      price: 2500,
-      image: 'assets/images/products/tied_knot_bracelet.jpeg',
-      description:
-          'Elegant in its simplicity, the Tied Knot Bracelet is a timeless accessory that symbolizes strength, unity, and connection. Crafted with precision and care, this bracelet features a delicate knot design that adds a subtle yet meaningful touch to your look. Whether worn alone or layered with other pieces, it effortlessly complements both casual and formal styles.',
-    ),
-    Product(
-      title: 'Teardrop Ear Cuff',
-      type: 'Earring',
-      price: 1500,
-      image: 'assets/images/products/c-shaped_teardrop_earcuff.jpeg',
-      description:
-          "Make a subtle yet striking statement with the Teardrop Ear Cuff. Designed for modern elegance, this piece features a delicate teardrop silhouette that hugs the ear comfortably—no piercing required. Its sleek design adds a hint of edge and sophistication to any outfit, whether you're dressing up for a night out or adding flair to your everyday look.",
-    ),
-    Product(
-      title: 'Wide Cuff Chunky Bangles',
-      type: 'Bracelet',
-      price: 2750,
-      image: 'assets/images/products/wide_cuff_chunky_bangles.jpeg',
-      description:
-          'Bold, stylish, and unapologetically statement-making—the Wide Cuff Chunky Bangles are designed to turn heads. With their wide, sculpted silhouette and polished finish, these bangles add instant glamour to any outfit. Whether paired with ethnic wear or modern ensembles, they bring a touch of confidence and edge to your look.',
-    ),
-    Product(
-      title: 'Flower Carved Ring',
-      type: 'Ring',
-      price: 1000,
-      image: 'assets/images/products/flower_ring.png',
-      description:
-          "Delicate and graceful, the Flower Carved Ring brings nature-inspired elegance to your fingertips. Featuring an intricate floral design etched into its band, this ring captures the beauty of blooms in a timeless form. Lightweight and charming, it's perfect for everyday wear or as a subtle accent for special occasions.",
-    ),
-    Product(
-      title: 'Flower Jeweled Necklace',
-      type: 'Necklace',
-      price: 3850,
-      image: 'assets/images/products/flower_necklace.jpeg',
-      description:
-          "Radiant and romantic, the Flower Jeweled Necklace is a celebration of beauty and elegance. Adorned with sparkling floral motifs, this necklace blends delicate craftsmanship with a luxurious touch. Whether you're dressing up for a special occasion or adding charm to your everyday outfit, it's a standout piece that captures attention effortlessly.",
-    ),
-  ];
+  final ApiService apiService = ApiService();
+
+  Future<void> fetchTrendyProducts() async {
+    setState(() => _isLoadingTrendy = true);
+    try {
+      trendyItems = await apiService.getProducts();
+      print("Fetched trendy items: ${trendyItems.length}");
+      for (var p in trendyItems) {
+        print("Product: ${p.title}, Image: ${p.image}");
+      }
+    } catch (e) {
+      print("Error fetching trendy products: $e");
+    } finally {
+      setState(() => _isLoadingTrendy = false);
+    }
+  }
+
+  List<Product> trendyItems = [];
+  bool _isLoadingTrendy = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchTrendyProducts();
+  }
 
   void addToCart(Product product) {
     setState(() {
@@ -229,7 +215,7 @@ class _HomeState extends State<Home> {
         child: Column(
           children: [
             Image.asset(
-              'assets/images/home_header.jpg',
+              'assets/images/home_header.png',
               height: 125,
               width: double.infinity,
               fit: BoxFit.cover,
@@ -330,109 +316,121 @@ class _HomeState extends State<Home> {
             ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: Row(
-                children:
-                    trendyItems.map((item) {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder:
-                                  (context) => ProductDetail(
-                                    item: item,
-                                    cart: cartItems,
-                                    wishlist: wishlistItems,
-                                  ),
-                            ),
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Column(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.asset(
-                                  item.image,
-                                  height: 150,
-                                  width: 150,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              SizedBox(height: 5),
-                              Text(
-                                item.type,
-                                style: Theme.of(
-                                  context,
-                                ).textTheme.titleMedium?.copyWith(
-                                  fontFamily: 'Roboto',
-                                  fontStyle: FontStyle.italic,
-                                  fontSize: 14,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 125,
-                                child: Text(
-                                  item.title,
-                                  textAlign: TextAlign.center,
-                                  style: Theme.of(
+              child:
+                  _isLoadingTrendy
+                      ? SizedBox(
+                        height: 200,
+                        child: Center(child: CircularProgressIndicator()),
+                      )
+                      : Row(
+                        children:
+                            trendyItems.map((item) {
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
                                     context,
-                                  ).textTheme.titleMedium?.copyWith(
-                                    fontFamily: 'Roboto',
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 5),
-                              Text(
-                                'LKR ${item.price.toStringAsFixed(2)}',
-                                style: Theme.of(
-                                  context,
-                                ).textTheme.titleMedium?.copyWith(
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              SizedBox(height: 5),
-                              SizedBox(
-                                width: 120,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    addToCart(item);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    padding: EdgeInsets.symmetric(vertical: 8),
-                                    backgroundColor:
-                                        Theme.of(context).brightness ==
-                                                Brightness.light
-                                            ? Colors.black
-                                            : Colors.white,
-                                  ),
-                                  child: Text(
-                                    'Add to Cart',
-                                    style: Theme.of(
-                                      context,
-                                    ).textTheme.titleMedium?.copyWith(
-                                      fontFamily: 'Roboto',
-                                      fontSize: 14,
-                                      color:
-                                          Theme.of(context).brightness ==
-                                                  Brightness.light
-                                              ? Colors.white
-                                              : Colors.black,
+                                    MaterialPageRoute(
+                                      builder:
+                                          (context) => ProductDetail(
+                                            item: item,
+                                            cart: cartItems,
+                                            wishlist: wishlistItems,
+                                          ),
                                     ),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0,
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Image.network(
+                                          item.image,
+                                          height: 150,
+                                          width: 150,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      SizedBox(height: 5),
+                                      Text(
+                                        item.type[0].toUpperCase() +
+                                            item.type.substring(1),
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.titleMedium?.copyWith(
+                                          fontFamily: 'Roboto',
+                                          fontStyle: FontStyle.italic,
+                                          fontSize: 14,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 125,
+                                        child: Text(
+                                          item.title,
+                                          textAlign: TextAlign.center,
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.titleMedium?.copyWith(
+                                            fontFamily: 'Roboto',
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        'LKR ${item.price.toStringAsFixed(2)}',
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.titleMedium?.copyWith(
+                                          fontFamily: 'Roboto',
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      SizedBox(height: 5),
+                                      SizedBox(
+                                        width: 120,
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            addToCart(item);
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: 8,
+                                            ),
+                                            backgroundColor:
+                                                Theme.of(context).brightness ==
+                                                        Brightness.light
+                                                    ? Colors.black
+                                                    : Colors.white,
+                                          ),
+                                          child: Text(
+                                            'Add to Cart',
+                                            style: Theme.of(
+                                              context,
+                                            ).textTheme.titleMedium?.copyWith(
+                                              fontFamily: 'Roboto',
+                                              fontSize: 14,
+                                              color:
+                                                  Theme.of(
+                                                            context,
+                                                          ).brightness ==
+                                                          Brightness.light
+                                                      ? Colors.white
+                                                      : Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }).toList(),
-              ),
+                              );
+                            }).toList(),
+                      ),
             ),
             SizedBox(height: 20),
             Divider(

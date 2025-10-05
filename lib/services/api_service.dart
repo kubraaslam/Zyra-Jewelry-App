@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:jewelry_store/models/product_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
@@ -32,7 +33,11 @@ class ApiService {
   }
 
   Future<Map<String, dynamic>?> register(
-      String username, String email, String password, String passwordConfirmation) async {
+    String username,
+    String email,
+    String password,
+    String passwordConfirmation,
+  ) async {
     try {
       final response = await http.post(
         Uri.parse("$baseUrl/register"),
@@ -41,11 +46,11 @@ class ApiService {
           "username": username,
           "email": email,
           "password": password,
-          "password_confirmation": passwordConfirmation
+          "password_confirmation": passwordConfirmation,
         }),
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         final data = jsonDecode(response.body);
 
         SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -53,6 +58,7 @@ class ApiService {
 
         return data;
       } else {
+        print("Register failed: ${response.statusCode} ${response.body}");
         return null;
       }
     } catch (e) {
@@ -73,5 +79,33 @@ class ApiService {
     }
 
     await prefs.remove("token");
+  }
+
+  Future<List<Product>> getProducts() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString("token") ?? "";
+
+      final response = await http.get(
+        Uri.parse("$baseUrl/products"),
+        headers: {
+          "Authorization": "Bearer $token",
+          "Content-Type": "application/json",
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body) as List;
+        return data.take(5).map((json) => Product.fromJson(json)).toList();
+      } else {
+        print(
+          "Failed to load products: ${response.statusCode} ${response.body}",
+        );
+        return [];
+      }
+    } catch (e) {
+      print("Error fetching products: $e");
+      return [];
+    }
   }
 }
