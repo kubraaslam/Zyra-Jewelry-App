@@ -1,8 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:jewelry_store/screens/login.dart';
+import 'package:jewelry_store/controllers/auth_controller.dart';
+import 'package:jewelry_store/controllers/cart_controller.dart';
+import 'package:jewelry_store/controllers/order_controller.dart';
+import 'package:jewelry_store/controllers/product_controller.dart';
+import 'package:jewelry_store/controllers/theme_controller.dart';
+import 'package:jewelry_store/views/login_view.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final cartController = CartController();
+  await cartController.initDb();
+
+  final orderController = OrderController();
+  await orderController.initDb();
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthController()),
+        ChangeNotifierProvider(create: (_) => ProductController()),
+        ChangeNotifierProvider(create: (_) => cartController),
+        ChangeNotifierProvider(create: (_) => orderController),
+        ChangeNotifierProvider(create: (_) => ThemeController()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -10,83 +36,84 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeController = Provider.of<ThemeController>(context);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Zyra Jewelry',
+      title: 'Zyra Jewelry App',
+
+      // Custom themes
+      themeMode: themeController.isDarkMode ? ThemeMode.dark : ThemeMode.light,
       theme: ThemeData(
-        colorScheme: ColorScheme.light(
-          primary: Colors.black, // selected color in light mode
+        brightness: Brightness.light,
+        primaryColor: Colors.white,
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
         ),
-        scaffoldBackgroundColor: Colors.white, // background of screens
-        textTheme: TextTheme(
-          bodyLarge: TextStyle(color: Colors.black),
-          bodyMedium: TextStyle(color: Colors.black),
-          titleLarge: TextStyle(color: Colors.black),
-          titleMedium: TextStyle(color: Colors.black),
-          labelLarge: TextStyle(color: Colors.black),
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(color: Colors.black87),
+          titleMedium: TextStyle(
+            color: Colors.black87,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: Colors.grey[200],
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.black, // button background
+            foregroundColor: Colors.white, // text color
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 28),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
         ),
       ),
       darkTheme: ThemeData(
-        colorScheme: ColorScheme.dark(
-          primary: Colors.white, // selected color in dark mode
+        brightness: Brightness.dark,
+        primaryColor: Colors.black,
+        scaffoldBackgroundColor: Colors.black,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.white,
         ),
-        scaffoldBackgroundColor: Colors.black, // background of screens
-        textTheme: TextTheme(
-          bodyLarge: TextStyle(color: Colors.white),
-          bodyMedium: TextStyle(color: Colors.white),
-          titleLarge: TextStyle(color: Colors.white),
-          titleMedium: TextStyle(color: Colors.white),
-          labelLarge: TextStyle(color: Colors.white),
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(color: Colors.white70),
+          titleMedium: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-      ),
-      themeMode: ThemeMode.system, // Automatically switch between light/dark
-      home: Login(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: Colors.grey[800],
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white, // button background
+            foregroundColor: Colors.black, // text color
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 28),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
             ),
-          ],
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+
+      home: const LoginView(),
     );
   }
 }

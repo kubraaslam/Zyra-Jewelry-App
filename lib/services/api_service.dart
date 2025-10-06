@@ -1,111 +1,80 @@
-// ignore_for_file: avoid_print
-
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:jewelry_store/models/product_data.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:jewelry_store/services/storage_service.dart';
 
 class ApiService {
-  final String baseUrl = "http://10.0.2.2:8000/api"; // emulator loopback
+  static const String baseUrl = "http://10.0.2.2:8000/api"; // emulator loopback
 
-  Future<Map<String, dynamic>?> login(String login, String password) async {
+  //Login with API
+  static Future<Map<String, dynamic>> login(
+    String login,
+    String password,
+  ) async {
     try {
-      final response = await http.post(
-        Uri.parse("$baseUrl/login"),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({"login": login, "password": password}),
-      );
+      final response = await http
+          .post(
+            Uri.parse('$baseUrl/login'),
+            headers: {'Accept': 'application/json'},
+            body: {'login': login, 'password': password},
+          )
+          .timeout(const Duration(seconds: 20)); // <-- timeout here
 
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString("token", data["token"]);
-
-        return data;
+        return json.decode(response.body);
       } else {
-        return null;
+        throw Exception(
+          json.decode(response.body)['message'] ?? 'Login failed',
+        );
       }
+    } on http.ClientException catch (e) {
+      throw Exception('Network error: $e');
+    } on TimeoutException {
+      throw Exception('Request timed out. Please try again.');
     } catch (e) {
-      print("Login error: $e");
-      return null;
+      throw Exception('Something went wrong: $e');
     }
   }
 
-  Future<Map<String, dynamic>?> register(
+  //Register with API
+  static Future<Map<String, dynamic>> register(
     String username,
     String email,
     String password,
-    String passwordConfirmation,
+    String confirmPassword,
   ) async {
-    try {
-      final response = await http.post(
-        Uri.parse("$baseUrl/register"),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({
-          "username": username,
-          "email": email,
-          "password": password,
-          "password_confirmation": passwordConfirmation,
-        }),
+    final response = await http.post(
+      Uri.parse('$baseUrl/register'),
+      headers: {'Accept': 'application/json'},
+      body: {
+        'username': username,
+        'email': email,
+        'password': password,
+        'password_confirmation': confirmPassword,
+      },
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return json.decode(response.body);
+    } else {
+      throw Exception(
+        json.decode(response.body)['message'] ?? 'Registration failed',
       );
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final data = jsonDecode(response.body);
-
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString("token", data["token"]);
-
-        return data;
-      } else {
-        print("Register failed: ${response.statusCode} ${response.body}");
-        return null;
-      }
-    } catch (e) {
-      print("Register error: $e");
-      return null;
     }
   }
 
-  Future<void> logout() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString("token");
+  // Fetch Products
+  static Future<List<dynamic>> getProducts() async {
+    final token = await StorageService.read('token'); // just string key
+    final response = await http.get(
+      Uri.parse('$baseUrl/products'),
+      headers: {'Accept': 'application/json', 'Authorization': 'Bearer $token'},
+    );
 
-    if (token != null) {
-      await http.post(
-        Uri.parse("$baseUrl/logout"),
-        headers: {"Authorization": "Bearer $token"},
-      );
-    }
-
-    await prefs.remove("token");
-  }
-
-  Future<List<Product>> getProducts() async {
-    try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      final token = prefs.getString("token") ?? "";
-
-      final response = await http.get(
-        Uri.parse("$baseUrl/products"),
-        headers: {
-          "Authorization": "Bearer $token",
-          "Content-Type": "application/json",
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body) as List;
-        return data.take(5).map((json) => Product.fromJson(json)).toList();
-      } else {
-        print(
-          "Failed to load products: ${response.statusCode} ${response.body}",
-        );
-        return [];
-      }
-    } catch (e) {
-      print("Error fetching products: $e");
-      return [];
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load products: ${response.statusCode}');
     }
   }
 }
