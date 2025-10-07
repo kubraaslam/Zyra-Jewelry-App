@@ -4,6 +4,7 @@ import 'package:jewelry_store/controllers/cart_controller.dart';
 import 'package:jewelry_store/controllers/order_controller.dart';
 import 'package:jewelry_store/models/cart_item_model.dart';
 import 'package:jewelry_store/models/order_model.dart';
+import 'package:jewelry_store/views/home_view.dart';
 import 'package:provider/provider.dart';
 
 class CheckoutView extends StatefulWidget {
@@ -142,14 +143,14 @@ class _CheckoutViewState extends State<CheckoutView> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                
+
                       final orderDate = DateFormat(
                         'yyyy-MM-dd',
                       ).format(DateTime.now());
                       final deliveryDate = DateFormat(
                         'yyyy-MM-dd',
                       ).format(DateTime.now().add(const Duration(days: 14)));
-                
+
                       final order = OrderModel(
                         total: totalPrice,
                         customerName: name,
@@ -162,13 +163,13 @@ class _CheckoutViewState extends State<CheckoutView> {
                         orderDate: orderDate,
                         deliveryDate: deliveryDate,
                       );
-                
+
                       // Save order in database
                       await orderController.createOrder(order, cartItems);
-                
+
                       // Clear cart
                       await cartController.clearCart();
-                
+
                       // Show delivery popup and navigate home
                       showDialog(
                         context: context,
@@ -181,9 +182,13 @@ class _CheckoutViewState extends State<CheckoutView> {
                               actions: [
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.popUntil(
+                                    Navigator.pushAndRemoveUntil(
                                       context,
-                                      (route) => route.isFirst,
+                                      MaterialPageRoute(
+                                        builder: (_) => const HomeView(),
+                                      ),
+                                      (route) =>
+                                          false, // Removes all previous routes
                                     );
                                   },
                                   child: const Text("OK"),
