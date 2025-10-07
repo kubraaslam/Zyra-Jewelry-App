@@ -5,6 +5,7 @@ import 'package:jewelry_store/controllers/product_controller.dart';
 import 'package:jewelry_store/models/cart_item_model.dart';
 import 'package:jewelry_store/models/category_model.dart';
 import 'package:jewelry_store/models/product_model.dart';
+import 'package:jewelry_store/services/shake_report_service.dart';
 import 'package:jewelry_store/views/cart_view.dart';
 import 'package:jewelry_store/views/login_view.dart';
 import 'package:jewelry_store/views/products_view.dart';
@@ -28,9 +29,15 @@ class _HomeViewState extends State<HomeView> {
     Category(title: 'RINGS', image: 'assets/images/rings.jpg'),
   ];
 
+  late ShakeReportService _shakeService; // Shake detection service
+
   @override
   void initState() {
     super.initState();
+    _shakeService = ShakeReportService(
+      context: context,
+    ); // Initialize shake service
+    _shakeService.startListening(); // Start listening for shakes
 
     // Fetch products after the first frame
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -40,6 +47,13 @@ class _HomeViewState extends State<HomeView> {
       );
       productController.fetchProducts();
     });
+  }
+
+  // Stop listening when the widget is disposed
+  @override
+  void dispose() {
+    _shakeService.stopListening();
+    super.dispose();
   }
 
   @override
@@ -299,6 +313,13 @@ class _HomeViewState extends State<HomeView> {
               decoration: BoxDecoration(color: Theme.of(context).primaryColor),
               accountName: Text(authController.user?.username ?? ''),
               accountEmail: Text(authController.user?.email ?? ''),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: const Text(
+                "Shake your phone to report an issue",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
             ),
             ListTile(
               leading: const Icon(Icons.logout, color: Colors.red),
